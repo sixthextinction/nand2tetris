@@ -1,0 +1,395 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux4Way16.hdl
+
+/**
+ * 4-way 16-bit multiplexor:
+ * out = a if sel == 00
+ *       b if sel == 01
+ *       c if sel == 10
+ *       d if sel == 11
+ */
+
+CHIP Mux4Way16 {
+    IN a[16], b[16], c[16], d[16], sel[2];
+    OUT out[16];
+
+    PARTS:
+    
+	
+	//	REMEMBER!!! S0 = LSB, S1 = MSB !!!
+	// 0 in general = LSB and n-1 in general = MSB actually
+	
+	//	eqn : AX'Y' + BXY' + CX'Y + DXY
+	//	where X = sel[0], Y = sel[1]
+	
+	//	general format for each subeqn: (A NAND X')'
+	
+	// First subequation = AX'Y' or As0's1'
+	// x = s0' nand s1'
+	
+	Nand(a=sel[0],b=sel[0],out=s0-);
+	Nand(a=sel[1],b=sel[1],out=s1-);
+	
+	Nand(a=s0-,b=s1-,out=s0-NANDs1-);	
+	Nand(a=s0-NANDs1-,b=s0-NANDs1-,out=x-);
+	
+	Nand(a=a[0],b=x-,out=tempA0);
+	Nand(a=a[1],b=x-,out=tempA1);
+	Nand(a=a[2],b=x-,out=tempA2);
+	Nand(a=a[3],b=x-,out=tempA3);
+	Nand(a=a[4],b=x-,out=tempA4);
+	Nand(a=a[5],b=x-,out=tempA5);
+	Nand(a=a[6],b=x-,out=tempA6);
+	Nand(a=a[7],b=x-,out=tempA7);
+	Nand(a=a[8],b=x-,out=tempA8);
+	Nand(a=a[9],b=x-,out=tempA9);
+	Nand(a=a[10],b=x-,out=tempA10);
+	Nand(a=a[11],b=x-,out=tempA11);
+	Nand(a=a[12],b=x-,out=tempA12);
+	Nand(a=a[13],b=x-,out=tempA13);
+	Nand(a=a[14],b=x-,out=tempA14);
+	Nand(a=a[15],b=x-,out=tempA15);
+	
+	Nand(a=tempA0,b=tempA0,out=As0-s1-bit0);
+	Nand(a=tempA1,b=tempA1,out=As0-s1-bit1);
+	Nand(a=tempA2,b=tempA2,out=As0-s1-bit2);
+	Nand(a=tempA3,b=tempA3,out=As0-s1-bit3);
+	Nand(a=tempA4,b=tempA4,out=As0-s1-bit4);
+	Nand(a=tempA5,b=tempA5,out=As0-s1-bit5);
+	Nand(a=tempA6,b=tempA6,out=As0-s1-bit6);
+	Nand(a=tempA7,b=tempA7,out=As0-s1-bit7);
+	Nand(a=tempA8,b=tempA8,out=As0-s1-bit8);
+	Nand(a=tempA9,b=tempA9,out=As0-s1-bit9);
+	Nand(a=tempA10,b=tempA10,out=As0-s1-bit10);
+	Nand(a=tempA11,b=tempA11,out=As0-s1-bit11);
+	Nand(a=tempA12,b=tempA12,out=As0-s1-bit12);
+	Nand(a=tempA13,b=tempA13,out=As0-s1-bit13);
+	Nand(a=tempA14,b=tempA14,out=As0-s1-bit14);
+	Nand(a=tempA15,b=tempA15,out=As0-s1-bit15);				//end_result =>	out = As0-s1-
+	
+	
+	
+	
+	// Second subequation = BXY' or Bs0s1'
+	// x = s0 nand s1'
+	
+	Nand(a=sel[0],b=sel[0],out=s0-FORB);
+	Nand(a=sel[1],b=sel[1],out=s1-FORB);
+	Nand(a=s0-FORB,b=s0-FORB,out=s0FORB);			// another inverse to rename sel[x] as sx
+	
+	
+	
+	Nand(a=s0FORB,b=s1-FORB,out=s0NANDs1-);	
+	Nand(a=s0NANDs1-,b=s0NANDs1-,out=x-FORB);
+	
+	Nand(a=b[0],b=x-FORB,out=tempB0);
+	Nand(a=b[1],b=x-FORB,out=tempB1);
+	Nand(a=b[2],b=x-FORB,out=tempB2);
+	Nand(a=b[3],b=x-FORB,out=tempB3);
+	Nand(a=b[4],b=x-FORB,out=tempB4);
+	Nand(a=b[5],b=x-FORB,out=tempB5);
+	Nand(a=b[6],b=x-FORB,out=tempB6);
+	Nand(a=b[7],b=x-FORB,out=tempB7);
+	Nand(a=b[8],b=x-FORB,out=tempB8);
+	Nand(a=b[9],b=x-FORB,out=tempB9);
+	Nand(a=b[10],b=x-FORB,out=tempB10);
+	Nand(a=b[11],b=x-FORB,out=tempB11);
+	Nand(a=b[12],b=x-FORB,out=tempB12);
+	Nand(a=b[13],b=x-FORB,out=tempB13);
+	Nand(a=b[14],b=x-FORB,out=tempB14);
+	Nand(a=b[15],b=x-FORB,out=tempB15);
+	
+	Nand(a=tempB0,b=tempB0,out=Bs0s1-bit0);
+	Nand(a=tempB1,b=tempB1,out=Bs0s1-bit1);
+	Nand(a=tempB2,b=tempB2,out=Bs0s1-bit2);
+	Nand(a=tempB3,b=tempB3,out=Bs0s1-bit3);
+	Nand(a=tempB4,b=tempB4,out=Bs0s1-bit4);
+	Nand(a=tempB5,b=tempB5,out=Bs0s1-bit5);
+	Nand(a=tempB6,b=tempB6,out=Bs0s1-bit6);
+	Nand(a=tempB7,b=tempB7,out=Bs0s1-bit7);
+	Nand(a=tempB8,b=tempB8,out=Bs0s1-bit8);
+	Nand(a=tempB9,b=tempB9,out=Bs0s1-bit9);
+	Nand(a=tempB10,b=tempB10,out=Bs0s1-bit10);
+	Nand(a=tempB11,b=tempB11,out=Bs0s1-bit11);
+	Nand(a=tempB12,b=tempB12,out=Bs0s1-bit12);
+	Nand(a=tempB13,b=tempB13,out=Bs0s1-bit13);
+	Nand(a=tempB14,b=tempB14,out=Bs0s1-bit14);
+	Nand(a=tempB15,b=tempB15,out=Bs0s1-bit15);					//end_result => out = Bs0s1-
+	
+	
+	// Third subequation = CX'Y or Cs0's1
+	// x = s0' nand s1
+	
+	Nand(a=sel[0],b=sel[0],out=s0-FORC);
+	Nand(a=sel[1],b=sel[1],out=s1-FORC);
+	Nand(a=s1-FORC,b=s1-FORC,out=s1FORC);			// another inverse to rename sel[x] as sx
+	
+	
+	Nand(a=s0-FORC,b=s1FORC,out=s0-NANDs1);	
+	Nand(a=s0-NANDs1,b=s0-NANDs1,out=x-FORC);
+	
+	Nand(a=c[0],b=x-FORC,out=tempC0);
+	Nand(a=c[1],b=x-FORC,out=tempC1);
+	Nand(a=c[2],b=x-FORC,out=tempC2);
+	Nand(a=c[3],b=x-FORC,out=tempC3);
+	Nand(a=c[4],b=x-FORC,out=tempC4);
+	Nand(a=c[5],b=x-FORC,out=tempC5);
+	Nand(a=c[6],b=x-FORC,out=tempC6);
+	Nand(a=c[7],b=x-FORC,out=tempC7);
+	Nand(a=c[8],b=x-FORC,out=tempC8);
+	Nand(a=c[9],b=x-FORC,out=tempC9);
+	Nand(a=c[10],b=x-FORC,out=tempC10);
+	Nand(a=c[11],b=x-FORC,out=tempC11);
+	Nand(a=c[12],b=x-FORC,out=tempC12);
+	Nand(a=c[13],b=x-FORC,out=tempC13);
+	Nand(a=c[14],b=x-FORC,out=tempC14);
+	Nand(a=c[15],b=x-FORC,out=tempC15);
+	
+	Nand(a=tempC0,b=tempC0,out=Cs0-s1bit0);
+	Nand(a=tempC1,b=tempC1,out=Cs0-s1bit1);
+	Nand(a=tempC2,b=tempC2,out=Cs0-s1bit2);
+	Nand(a=tempC3,b=tempC3,out=Cs0-s1bit3);
+	Nand(a=tempC4,b=tempC4,out=Cs0-s1bit4);
+	Nand(a=tempC5,b=tempC5,out=Cs0-s1bit5);
+	Nand(a=tempC6,b=tempC6,out=Cs0-s1bit6);
+	Nand(a=tempC7,b=tempC7,out=Cs0-s1bit7);
+	Nand(a=tempC8,b=tempC8,out=Cs0-s1bit8);
+	Nand(a=tempC9,b=tempC9,out=Cs0-s1bit9);
+	Nand(a=tempC10,b=tempC10,out=Cs0-s1bit10);
+	Nand(a=tempC11,b=tempC11,out=Cs0-s1bit11);
+	Nand(a=tempC12,b=tempC12,out=Cs0-s1bit12);
+	Nand(a=tempC13,b=tempC13,out=Cs0-s1bit13);
+	Nand(a=tempC14,b=tempC14,out=Cs0-s1bit14);
+	Nand(a=tempC15,b=tempC15,out=Cs0-s1bit15); 		// end_result => out = Cs0-s1
+	
+	
+	
+	// Third subequation = DXY or Ds0s1
+	// x = s0 nand s1
+	
+	Nand(a=sel[0],b=sel[0],out=s0-FORD);
+	Nand(a=sel[1],b=sel[1],out=s1-FORD);
+	Nand(a=s0-FORD,b=s0-FORD,out=s0FORD);			
+	Nand(a=s1-FORD,b=s1-FORD,out=s1FORD);		// another inverse to rename sel[x] as sx
+	
+	Nand(a=s0FORD,b=s1FORD,out=s0NANDs1);	
+	Nand(a=s0NANDs1,b=s0NANDs1,out=x-FORD);
+	
+	Nand(a=d[0],b=x-FORD,out=tempD0);
+	Nand(a=d[1],b=x-FORD,out=tempD1);
+	Nand(a=d[2],b=x-FORD,out=tempD2);
+	Nand(a=d[3],b=x-FORD,out=tempD3);
+	Nand(a=d[4],b=x-FORD,out=tempD4);
+	Nand(a=d[5],b=x-FORD,out=tempD5);
+	Nand(a=d[6],b=x-FORD,out=tempD6);
+	Nand(a=d[7],b=x-FORD,out=tempD7);
+	Nand(a=d[8],b=x-FORD,out=tempD8);
+	Nand(a=d[9],b=x-FORD,out=tempD9);
+	Nand(a=d[10],b=x-FORD,out=tempD10);
+	Nand(a=d[11],b=x-FORD,out=tempD11);
+	Nand(a=d[12],b=x-FORD,out=tempD12);
+	Nand(a=d[13],b=x-FORD,out=tempD13);
+	Nand(a=d[14],b=x-FORD,out=tempD14);
+	Nand(a=d[15],b=x-FORD,out=tempD15);
+	
+	Nand(a=tempD0,b=tempD0,out=Ds0s1bit0);
+	Nand(a=tempD1,b=tempD1,out=Ds0s1bit1);
+	Nand(a=tempD2,b=tempD2,out=Ds0s1bit2);
+	Nand(a=tempD3,b=tempD3,out=Ds0s1bit3);
+	Nand(a=tempD4,b=tempD4,out=Ds0s1bit4);
+	Nand(a=tempD5,b=tempD5,out=Ds0s1bit5);
+	Nand(a=tempD6,b=tempD6,out=Ds0s1bit6);
+	Nand(a=tempD7,b=tempD7,out=Ds0s1bit7);
+	Nand(a=tempD8,b=tempD8,out=Ds0s1bit8);
+	Nand(a=tempD9,b=tempD9,out=Ds0s1bit9);
+	Nand(a=tempD10,b=tempD10,out=Ds0s1bit10);
+	Nand(a=tempD11,b=tempD11,out=Ds0s1bit11);
+	Nand(a=tempD12,b=tempD12,out=Ds0s1bit12);
+	Nand(a=tempD13,b=tempD13,out=Ds0s1bit13);
+	Nand(a=tempD14,b=tempD14,out=Ds0s1bit14);
+	Nand(a=tempD15,b=tempD15,out=Ds0s1bit15);  		// end_result => out = Ds0s1
+	
+	// 	we're left with, respectively :
+	//	As0-s1- + Bs0s1- + Cs0-s1 + Ds0s1
+	//	aka. z0 + z1 + z2 + z3
+	//  which would be represented as :
+	// 	(z0-- + z1--) + (z2-- + z3--)
+	//  aka (z0- nand z1-) + (z2- nand z3-)
+	
+	//first, getting z0-
+	Nand(a=As0-s1-bit0,b=As0-s1-bit0,out=z0bit0);
+	Nand(a=As0-s1-bit1,b=As0-s1-bit1,out=z0bit1);
+	Nand(a=As0-s1-bit2,b=As0-s1-bit2,out=z0bit2);
+	Nand(a=As0-s1-bit3,b=As0-s1-bit3,out=z0bit3);
+	Nand(a=As0-s1-bit4,b=As0-s1-bit4,out=z0bit4);
+	Nand(a=As0-s1-bit5,b=As0-s1-bit5,out=z0bit5);
+	Nand(a=As0-s1-bit6,b=As0-s1-bit6,out=z0bit6);
+	Nand(a=As0-s1-bit7,b=As0-s1-bit7,out=z0bit7);
+	Nand(a=As0-s1-bit8,b=As0-s1-bit8,out=z0bit8);
+	Nand(a=As0-s1-bit9,b=As0-s1-bit9,out=z0bit9);
+	Nand(a=As0-s1-bit10,b=As0-s1-bit10,out=z0bit10);
+	Nand(a=As0-s1-bit11,b=As0-s1-bit11,out=z0bit11);
+	Nand(a=As0-s1-bit12,b=As0-s1-bit12,out=z0bit12);
+	Nand(a=As0-s1-bit13,b=As0-s1-bit13,out=z0bit13);
+	Nand(a=As0-s1-bit14,b=As0-s1-bit14,out=z0bit14);
+	Nand(a=As0-s1-bit15,b=As0-s1-bit15,out=z0bit15);
+
+	//then z1-
+	Nand(a=Bs0s1-bit0,b=Bs0s1-bit0,out=z1bit0);
+	Nand(a=Bs0s1-bit1,b=Bs0s1-bit1,out=z1bit1);
+	Nand(a=Bs0s1-bit2,b=Bs0s1-bit2,out=z1bit2);
+	Nand(a=Bs0s1-bit3,b=Bs0s1-bit3,out=z1bit3);
+	Nand(a=Bs0s1-bit4,b=Bs0s1-bit4,out=z1bit4);
+	Nand(a=Bs0s1-bit5,b=Bs0s1-bit5,out=z1bit5);
+	Nand(a=Bs0s1-bit6,b=Bs0s1-bit6,out=z1bit6);
+	Nand(a=Bs0s1-bit7,b=Bs0s1-bit7,out=z1bit7);
+	Nand(a=Bs0s1-bit8,b=Bs0s1-bit8,out=z1bit8);
+	Nand(a=Bs0s1-bit9,b=Bs0s1-bit9,out=z1bit9);
+	Nand(a=Bs0s1-bit10,b=Bs0s1-bit10,out=z1bit10);
+	Nand(a=Bs0s1-bit11,b=Bs0s1-bit11,out=z1bit11);
+	Nand(a=Bs0s1-bit12,b=Bs0s1-bit12,out=z1bit12);
+	Nand(a=Bs0s1-bit13,b=Bs0s1-bit13,out=z1bit13);
+	Nand(a=Bs0s1-bit14,b=Bs0s1-bit14,out=z1bit14);
+	Nand(a=Bs0s1-bit15,b=Bs0s1-bit15,out=z1bit15);
+
+	//then z2-
+	Nand(a=Cs0-s1bit0,b=Cs0-s1bit0,out=z2bit0);
+	Nand(a=Cs0-s1bit1,b=Cs0-s1bit1,out=z2bit1);
+	Nand(a=Cs0-s1bit2,b=Cs0-s1bit2,out=z2bit2);
+	Nand(a=Cs0-s1bit3,b=Cs0-s1bit3,out=z2bit3);
+	Nand(a=Cs0-s1bit4,b=Cs0-s1bit4,out=z2bit4);
+	Nand(a=Cs0-s1bit5,b=Cs0-s1bit5,out=z2bit5);
+	Nand(a=Cs0-s1bit6,b=Cs0-s1bit6,out=z2bit6);
+	Nand(a=Cs0-s1bit7,b=Cs0-s1bit7,out=z2bit7);
+	Nand(a=Cs0-s1bit8,b=Cs0-s1bit8,out=z2bit8);
+	Nand(a=Cs0-s1bit9,b=Cs0-s1bit9,out=z2bit9);
+	Nand(a=Cs0-s1bit10,b=Cs0-s1bit10,out=z2bit10);
+	Nand(a=Cs0-s1bit11,b=Cs0-s1bit11,out=z2bit11);
+	Nand(a=Cs0-s1bit12,b=Cs0-s1bit12,out=z2bit12);
+	Nand(a=Cs0-s1bit13,b=Cs0-s1bit13,out=z2bit13);
+	Nand(a=Cs0-s1bit14,b=Cs0-s1bit14,out=z2bit14);
+	Nand(a=Cs0-s1bit15,b=Cs0-s1bit15,out=z2bit15);
+	
+	//and finally z3-
+	Nand(a=Ds0s1bit0,b=Ds0s1bit0,out=z3bit0);
+	Nand(a=Ds0s1bit1,b=Ds0s1bit1,out=z3bit1);
+	Nand(a=Ds0s1bit2,b=Ds0s1bit2,out=z3bit2);
+	Nand(a=Ds0s1bit3,b=Ds0s1bit3,out=z3bit3);
+	Nand(a=Ds0s1bit4,b=Ds0s1bit4,out=z3bit4);
+	Nand(a=Ds0s1bit5,b=Ds0s1bit5,out=z3bit5);
+	Nand(a=Ds0s1bit6,b=Ds0s1bit6,out=z3bit6);
+	Nand(a=Ds0s1bit7,b=Ds0s1bit7,out=z3bit7);
+	Nand(a=Ds0s1bit8,b=Ds0s1bit8,out=z3bit8);
+	Nand(a=Ds0s1bit9,b=Ds0s1bit9,out=z3bit9);
+	Nand(a=Ds0s1bit10,b=Ds0s1bit10,out=z3bit10);
+	Nand(a=Ds0s1bit11,b=Ds0s1bit11,out=z3bit11);
+	Nand(a=Ds0s1bit12,b=Ds0s1bit12,out=z3bit12);
+	Nand(a=Ds0s1bit13,b=Ds0s1bit13,out=z3bit13);
+	Nand(a=Ds0s1bit14,b=Ds0s1bit14,out=z3bit14);
+	Nand(a=Ds0s1bit15,b=Ds0s1bit15,out=z3bit15);
+	
+
+	// (z0- NAND z1-)
+	
+	Nand(a=z0bit0,b=z1bit0,out=z0-NANDz1-bit0);
+	Nand(a=z0bit1,b=z1bit1,out=z0-NANDz1-bit1);
+	Nand(a=z0bit2,b=z1bit2,out=z0-NANDz1-bit2);
+	Nand(a=z0bit3,b=z1bit3,out=z0-NANDz1-bit3);
+	Nand(a=z0bit4,b=z1bit4,out=z0-NANDz1-bit4);
+	Nand(a=z0bit5,b=z1bit5,out=z0-NANDz1-bit5);
+	Nand(a=z0bit6,b=z1bit6,out=z0-NANDz1-bit6);
+	Nand(a=z0bit7,b=z1bit7,out=z0-NANDz1-bit7);
+	Nand(a=z0bit8,b=z1bit8,out=z0-NANDz1-bit8);
+	Nand(a=z0bit9,b=z1bit9,out=z0-NANDz1-bit9);
+	Nand(a=z0bit10,b=z1bit10,out=z0-NANDz1-bit10);
+	Nand(a=z0bit11,b=z1bit11,out=z0-NANDz1-bit11);
+	Nand(a=z0bit12,b=z1bit12,out=z0-NANDz1-bit12);
+	Nand(a=z0bit13,b=z1bit13,out=z0-NANDz1-bit13);
+	Nand(a=z0bit14,b=z1bit14,out=z0-NANDz1-bit14);
+	Nand(a=z0bit15,b=z1bit15,out=z0-NANDz1-bit15);
+
+	// (z2- NAND z3-)
+	Nand(a=z2bit0,b=z3bit0,out=z2-NANDz3-bit0);
+	Nand(a=z2bit1,b=z3bit1,out=z2-NANDz3-bit1);
+	Nand(a=z2bit2,b=z3bit2,out=z2-NANDz3-bit2);
+	Nand(a=z2bit3,b=z3bit3,out=z2-NANDz3-bit3);
+	Nand(a=z2bit4,b=z3bit4,out=z2-NANDz3-bit4);
+	Nand(a=z2bit5,b=z3bit5,out=z2-NANDz3-bit5);
+	Nand(a=z2bit6,b=z3bit6,out=z2-NANDz3-bit6);
+	Nand(a=z2bit7,b=z3bit7,out=z2-NANDz3-bit7);
+	Nand(a=z2bit8,b=z3bit8,out=z2-NANDz3-bit8);
+	Nand(a=z2bit9,b=z3bit9,out=z2-NANDz3-bit9);
+	Nand(a=z2bit10,b=z3bit10,out=z2-NANDz3-bit10);
+	Nand(a=z2bit11,b=z3bit11,out=z2-NANDz3-bit11);
+	Nand(a=z2bit12,b=z3bit12,out=z2-NANDz3-bit12);
+	Nand(a=z2bit13,b=z3bit13,out=z2-NANDz3-bit13);
+	Nand(a=z2bit14,b=z3bit14,out=z2-NANDz3-bit14);
+	Nand(a=z2bit15,b=z3bit15,out=z2-NANDz3-bit15);
+	
+	//OH GOD THE PAIN IS ALMOST STOPPED
+	
+	// FINAL eqn : 		z0' NAND z1' + z2' NAND z3' 
+	//				=>	(z0' NAND z1') + (z2' NAND z3' )
+	//				=>	(x0) + (x1)
+	// 				=>	(x0') NAND (x1')
+	
+	//invert z0-NANDz1- and z2-NANDz3-
+	Nand(a=z0-NANDz1-bit0,b=z0-NANDz1-bit0,out=x0bit0);
+	Nand(a=z0-NANDz1-bit1,b=z0-NANDz1-bit1,out=x0bit1);
+	Nand(a=z0-NANDz1-bit2,b=z0-NANDz1-bit2,out=x0bit2);
+	Nand(a=z0-NANDz1-bit3,b=z0-NANDz1-bit3,out=x0bit3);
+	Nand(a=z0-NANDz1-bit4,b=z0-NANDz1-bit4,out=x0bit4);
+	Nand(a=z0-NANDz1-bit5,b=z0-NANDz1-bit5,out=x0bit5);
+	Nand(a=z0-NANDz1-bit6,b=z0-NANDz1-bit6,out=x0bit6);
+	Nand(a=z0-NANDz1-bit7,b=z0-NANDz1-bit7,out=x0bit7);
+	Nand(a=z0-NANDz1-bit8,b=z0-NANDz1-bit8,out=x0bit8);
+	Nand(a=z0-NANDz1-bit9,b=z0-NANDz1-bit9,out=x0bit9);
+	Nand(a=z0-NANDz1-bit10,b=z0-NANDz1-bit10,out=x0bit10);
+	Nand(a=z0-NANDz1-bit11,b=z0-NANDz1-bit11,out=x0bit11);
+	Nand(a=z0-NANDz1-bit12,b=z0-NANDz1-bit12,out=x0bit12);
+	Nand(a=z0-NANDz1-bit13,b=z0-NANDz1-bit13,out=x0bit13);
+	Nand(a=z0-NANDz1-bit14,b=z0-NANDz1-bit14,out=x0bit14);
+	Nand(a=z0-NANDz1-bit15,b=z0-NANDz1-bit15,out=x0bit15);
+	
+	Nand(a=z2-NANDz3-bit0,b=z2-NANDz3-bit0,out=x1bit0);
+	Nand(a=z2-NANDz3-bit1,b=z2-NANDz3-bit1,out=x1bit1);
+	Nand(a=z2-NANDz3-bit2,b=z2-NANDz3-bit2,out=x1bit2);
+	Nand(a=z2-NANDz3-bit3,b=z2-NANDz3-bit3,out=x1bit3);
+	Nand(a=z2-NANDz3-bit4,b=z2-NANDz3-bit4,out=x1bit4);
+	Nand(a=z2-NANDz3-bit5,b=z2-NANDz3-bit5,out=x1bit5);
+	Nand(a=z2-NANDz3-bit6,b=z2-NANDz3-bit6,out=x1bit6);
+	Nand(a=z2-NANDz3-bit7,b=z2-NANDz3-bit7,out=x1bit7);
+	Nand(a=z2-NANDz3-bit8,b=z2-NANDz3-bit8,out=x1bit8);
+	Nand(a=z2-NANDz3-bit9,b=z2-NANDz3-bit9,out=x1bit9);
+	Nand(a=z2-NANDz3-bit10,b=z2-NANDz3-bit10,out=x1bit10);
+	Nand(a=z2-NANDz3-bit11,b=z2-NANDz3-bit11,out=x1bit11);
+	Nand(a=z2-NANDz3-bit12,b=z2-NANDz3-bit12,out=x1bit12);
+	Nand(a=z2-NANDz3-bit13,b=z2-NANDz3-bit13,out=x1bit13);
+	Nand(a=z2-NANDz3-bit14,b=z2-NANDz3-bit14,out=x1bit14);
+	Nand(a=z2-NANDz3-bit15,b=z2-NANDz3-bit15,out=x1bit15);
+	
+	
+	//FINAL RESULT MOTHERFUCKER
+	
+	Nand(a=x0bit0,b=x1bit0,out=out[0]);
+	Nand(a=x0bit1,b=x1bit1,out=out[1]);
+	Nand(a=x0bit2,b=x1bit2,out=out[2]);
+	Nand(a=x0bit3,b=x1bit3,out=out[3]);
+	Nand(a=x0bit4,b=x1bit4,out=out[4]);
+	Nand(a=x0bit5,b=x1bit5,out=out[5]);
+	Nand(a=x0bit6,b=x1bit6,out=out[6]);
+	Nand(a=x0bit7,b=x1bit7,out=out[7]);
+	Nand(a=x0bit8,b=x1bit8,out=out[8]);
+	Nand(a=x0bit9,b=x1bit9,out=out[9]);
+	Nand(a=x0bit10,b=x1bit10,out=out[10]);
+	Nand(a=x0bit11,b=x1bit11,out=out[11]);
+	Nand(a=x0bit12,b=x1bit12,out=out[12]);
+	Nand(a=x0bit13,b=x1bit13,out=out[13]);
+	Nand(a=x0bit14,b=x1bit14,out=out[14]);
+	Nand(a=x0bit15,b=x1bit15,out=out[15]);
+	
+	//OH GOD THE PAIN IS OVER!!!
+	
+}

@@ -1,0 +1,75 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux16.hdl
+
+/**
+ * 16-bit multiplexor: 
+ * for i = 0..15 out[i] = a[i] if sel == 0 
+ *                        b[i] if sel == 1
+ */
+
+CHIP Mux16 {
+    IN a[16], b[16], sel;
+    OUT out[16];
+
+    PARTS:
+	
+	//Do B NAND C first
+	Nand(a=b[0],b=sel,out=tempA0);
+	Nand(a=b[1],b=sel,out=tempA1);
+	Nand(a=b[2],b=sel,out=tempA2);
+	Nand(a=b[3],b=sel,out=tempA3);
+	Nand(a=b[4],b=sel,out=tempA4);
+	Nand(a=b[5],b=sel,out=tempA5);
+	Nand(a=b[6],b=sel,out=tempA6);
+	Nand(a=b[7],b=sel,out=tempA7);
+	Nand(a=b[8],b=sel,out=tempA8);
+	Nand(a=b[9],b=sel,out=tempA9);
+	Nand(a=b[10],b=sel,out=tempA10);
+	Nand(a=b[11],b=sel,out=tempA11);
+	Nand(a=b[12],b=sel,out=tempA12);
+	Nand(a=b[13],b=sel,out=tempA13);
+	Nand(a=b[14],b=sel,out=tempA14);
+	Nand(a=b[15],b=sel,out=tempA15);
+	
+	//then NotC
+	Nand(a=sel,b=sel,out=Notsel);
+	
+	//and finally A NAND NotC
+	Nand(a=a[0],b=Notsel,out=tempB0);
+	Nand(a=a[1],b=Notsel,out=tempB1);
+	Nand(a=a[2],b=Notsel,out=tempB2);
+	Nand(a=a[3],b=Notsel,out=tempB3);
+	Nand(a=a[4],b=Notsel,out=tempB4);
+	Nand(a=a[5],b=Notsel,out=tempB5);
+	Nand(a=a[6],b=Notsel,out=tempB6);
+	Nand(a=a[7],b=Notsel,out=tempB7);
+	Nand(a=a[8],b=Notsel,out=tempB8);
+	Nand(a=a[9],b=Notsel,out=tempB9);
+	Nand(a=a[10],b=Notsel,out=tempB10);
+	Nand(a=a[11],b=Notsel,out=tempB11);
+	Nand(a=a[12],b=Notsel,out=tempB12);
+	Nand(a=a[13],b=Notsel,out=tempB13);
+	Nand(a=a[14],b=Notsel,out=tempB14);
+	Nand(a=a[15],b=Notsel,out=tempB15);
+	
+	//Final result : (B NAND C ) NAND (A NAND Notc) = a AND sel OR b AND Notsel
+	Nand(a=tempA0,b=tempB0,out=out[0]);
+	Nand(a=tempA1,b=tempB1,out=out[1]);
+	Nand(a=tempA2,b=tempB2,out=out[2]);
+	Nand(a=tempA3,b=tempB3,out=out[3]);
+	Nand(a=tempA4,b=tempB4,out=out[4]);
+	Nand(a=tempA5,b=tempB5,out=out[5]);
+	Nand(a=tempA6,b=tempB6,out=out[6]);
+	Nand(a=tempA7,b=tempB7,out=out[7]);
+	Nand(a=tempA8,b=tempB8,out=out[8]);
+	Nand(a=tempA9,b=tempB9,out=out[9]);
+	Nand(a=tempA10,b=tempB10,out=out[10]);
+	Nand(a=tempA11,b=tempB11,out=out[11]);
+	Nand(a=tempA12,b=tempB12,out=out[12]);
+	Nand(a=tempA13,b=tempB13,out=out[13]);
+	Nand(a=tempA14,b=tempB14,out=out[14]);
+	Nand(a=tempA15,b=tempB15,out=out[15]);
+	
+}

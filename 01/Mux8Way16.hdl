@@ -1,0 +1,903 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux8Way16.hdl
+
+/**
+ * 8-way 16-bit multiplexor:
+ * out = a if sel == 000
+ *       b if sel == 001
+ *       etc.
+ *       h if sel == 111
+ */
+
+CHIP Mux8Way16 {
+    IN a[16], b[16], c[16], d[16],
+       e[16], f[16], g[16], h[16],
+       sel[3];
+    OUT out[16];
+
+    PARTS:
+	
+	//first level of this Mux
+	//Let sel[0] = x, sel[1] = y, sel[2] = z
+	//we're going to use line x for first four muxes, y for the next two, and z for the last 
+	
+	Nand(a=sel[0],b=sel[0],out=x-);
+	Nand(a=x-,b=x-,out=x);
+	
+	
+	//ax-
+	Nand(a=a[0],b=x-,out=tempax-bit0);
+	Nand(a=a[1],b=x-,out=tempax-bit1);
+	Nand(a=a[2],b=x-,out=tempax-bit2);
+	Nand(a=a[3],b=x-,out=tempax-bit3);
+	Nand(a=a[4],b=x-,out=tempax-bit4);
+	Nand(a=a[5],b=x-,out=tempax-bit5);
+	Nand(a=a[6],b=x-,out=tempax-bit6);
+	Nand(a=a[7],b=x-,out=tempax-bit7);
+	Nand(a=a[8],b=x-,out=tempax-bit8);
+	Nand(a=a[9],b=x-,out=tempax-bit9);
+	Nand(a=a[10],b=x-,out=tempax-bit10);
+	Nand(a=a[11],b=x-,out=tempax-bit11);
+	Nand(a=a[12],b=x-,out=tempax-bit12);
+	Nand(a=a[13],b=x-,out=tempax-bit13);
+	Nand(a=a[14],b=x-,out=tempax-bit14);
+	Nand(a=a[15],b=x-,out=tempax-bit15);
+	
+	Nand(a=tempax-bit0,b=tempax-bit0,out=ax-bit0);
+	Nand(a=tempax-bit1,b=tempax-bit1,out=ax-bit1);
+	Nand(a=tempax-bit2,b=tempax-bit2,out=ax-bit2);
+	Nand(a=tempax-bit3,b=tempax-bit3,out=ax-bit3);
+	Nand(a=tempax-bit4,b=tempax-bit4,out=ax-bit4);
+	Nand(a=tempax-bit5,b=tempax-bit5,out=ax-bit5);
+	Nand(a=tempax-bit6,b=tempax-bit6,out=ax-bit6);
+	Nand(a=tempax-bit7,b=tempax-bit7,out=ax-bit7);
+	Nand(a=tempax-bit8,b=tempax-bit8,out=ax-bit8);
+	Nand(a=tempax-bit9,b=tempax-bit9,out=ax-bit9);
+	Nand(a=tempax-bit10,b=tempax-bit10,out=ax-bit10);
+	Nand(a=tempax-bit11,b=tempax-bit11,out=ax-bit11);
+	Nand(a=tempax-bit12,b=tempax-bit12,out=ax-bit12);
+	Nand(a=tempax-bit13,b=tempax-bit13,out=ax-bit13);
+	Nand(a=tempax-bit14,b=tempax-bit14,out=ax-bit14);
+	Nand(a=tempax-bit15,b=tempax-bit15,out=ax-bit15);
+	
+	//bx
+	Nand(a=b[0],b=x,out=tempbxbit0);
+	Nand(a=b[1],b=x,out=tempbxbit1);
+	Nand(a=b[2],b=x,out=tempbxbit2);
+	Nand(a=b[3],b=x,out=tempbxbit3);
+	Nand(a=b[4],b=x,out=tempbxbit4);
+	Nand(a=b[5],b=x,out=tempbxbit5);
+	Nand(a=b[6],b=x,out=tempbxbit6);
+	Nand(a=b[7],b=x,out=tempbxbit7);
+	Nand(a=b[8],b=x,out=tempbxbit8);
+	Nand(a=b[9],b=x,out=tempbxbit9);
+	Nand(a=b[10],b=x,out=tempbxbit10);
+	Nand(a=b[11],b=x,out=tempbxbit11);
+	Nand(a=b[12],b=x,out=tempbxbit12);
+	Nand(a=b[13],b=x,out=tempbxbit13);
+	Nand(a=b[14],b=x,out=tempbxbit14);
+	Nand(a=b[15],b=x,out=tempbxbit15);
+	
+	Nand(a=tempbxbit0,b=tempbxbit0,out=bxbit0);
+	Nand(a=tempbxbit1,b=tempbxbit1,out=bxbit1);
+	Nand(a=tempbxbit2,b=tempbxbit2,out=bxbit2);
+	Nand(a=tempbxbit3,b=tempbxbit3,out=bxbit3);
+	Nand(a=tempbxbit4,b=tempbxbit4,out=bxbit4);
+	Nand(a=tempbxbit5,b=tempbxbit5,out=bxbit5);
+	Nand(a=tempbxbit6,b=tempbxbit6,out=bxbit6);
+	Nand(a=tempbxbit7,b=tempbxbit7,out=bxbit7);
+	Nand(a=tempbxbit8,b=tempbxbit8,out=bxbit8);
+	Nand(a=tempbxbit9,b=tempbxbit9,out=bxbit9);
+	Nand(a=tempbxbit10,b=tempbxbit10,out=bxbit10);
+	Nand(a=tempbxbit11,b=tempbxbit11,out=bxbit11);
+	Nand(a=tempbxbit12,b=tempbxbit12,out=bxbit12);
+	Nand(a=tempbxbit13,b=tempbxbit13,out=bxbit13);
+	Nand(a=tempbxbit14,b=tempbxbit14,out=bxbit14);
+	Nand(a=tempbxbit15,b=tempbxbit15,out=bxbit15);
+	
+	//cx-
+	Nand(a=c[0],b=x-,out=tempcx-bit0);
+	Nand(a=c[1],b=x-,out=tempcx-bit1);
+	Nand(a=c[2],b=x-,out=tempcx-bit2);
+	Nand(a=c[3],b=x-,out=tempcx-bit3);
+	Nand(a=c[4],b=x-,out=tempcx-bit4);
+	Nand(a=c[5],b=x-,out=tempcx-bit5);
+	Nand(a=c[6],b=x-,out=tempcx-bit6);
+	Nand(a=c[7],b=x-,out=tempcx-bit7);
+	Nand(a=c[8],b=x-,out=tempcx-bit8);
+	Nand(a=c[9],b=x-,out=tempcx-bit9);
+	Nand(a=c[10],b=x-,out=tempcx-bit10);
+	Nand(a=c[11],b=x-,out=tempcx-bit11);
+	Nand(a=c[12],b=x-,out=tempcx-bit12);
+	Nand(a=c[13],b=x-,out=tempcx-bit13);
+	Nand(a=c[14],b=x-,out=tempcx-bit14);
+	Nand(a=c[15],b=x-,out=tempcx-bit15);
+	
+	Nand(a=tempcx-bit0,b=tempcx-bit0,out=cx-bit0);
+	Nand(a=tempcx-bit1,b=tempcx-bit1,out=cx-bit1);
+	Nand(a=tempcx-bit2,b=tempcx-bit2,out=cx-bit2);
+	Nand(a=tempcx-bit3,b=tempcx-bit3,out=cx-bit3);
+	Nand(a=tempcx-bit4,b=tempcx-bit4,out=cx-bit4);
+	Nand(a=tempcx-bit5,b=tempcx-bit5,out=cx-bit5);
+	Nand(a=tempcx-bit6,b=tempcx-bit6,out=cx-bit6);
+	Nand(a=tempcx-bit7,b=tempcx-bit7,out=cx-bit7);
+	Nand(a=tempcx-bit8,b=tempcx-bit8,out=cx-bit8);
+	Nand(a=tempcx-bit9,b=tempcx-bit9,out=cx-bit9);
+	Nand(a=tempcx-bit10,b=tempcx-bit10,out=cx-bit10);
+	Nand(a=tempcx-bit11,b=tempcx-bit11,out=cx-bit11);
+	Nand(a=tempcx-bit12,b=tempcx-bit12,out=cx-bit12);
+	Nand(a=tempcx-bit13,b=tempcx-bit13,out=cx-bit13);
+	Nand(a=tempcx-bit14,b=tempcx-bit14,out=cx-bit14);
+	Nand(a=tempcx-bit15,b=tempcx-bit15,out=cx-bit15);
+	
+	//dx
+	Nand(a=d[0],b=x,out=tempdxbit0);
+	Nand(a=d[1],b=x,out=tempdxbit1);
+	Nand(a=d[2],b=x,out=tempdxbit2);
+	Nand(a=d[3],b=x,out=tempdxbit3);
+	Nand(a=d[4],b=x,out=tempdxbit4);
+	Nand(a=d[5],b=x,out=tempdxbit5);
+	Nand(a=d[6],b=x,out=tempdxbit6);
+	Nand(a=d[7],b=x,out=tempdxbit7);
+	Nand(a=d[8],b=x,out=tempdxbit8);
+	Nand(a=d[9],b=x,out=tempdxbit9);
+	Nand(a=d[10],b=x,out=tempdxbit10);
+	Nand(a=d[11],b=x,out=tempdxbit11);
+	Nand(a=d[12],b=x,out=tempdxbit12);
+	Nand(a=d[13],b=x,out=tempdxbit13);
+	Nand(a=d[14],b=x,out=tempdxbit14);
+	Nand(a=d[15],b=x,out=tempdxbit15);
+	
+	Nand(a=tempdxbit0,b=tempdxbit0,out=dxbit0);
+	Nand(a=tempdxbit1,b=tempdxbit1,out=dxbit1);
+	Nand(a=tempdxbit2,b=tempdxbit2,out=dxbit2);
+	Nand(a=tempdxbit3,b=tempdxbit3,out=dxbit3);
+	Nand(a=tempdxbit4,b=tempdxbit4,out=dxbit4);
+	Nand(a=tempdxbit5,b=tempdxbit5,out=dxbit5);
+	Nand(a=tempdxbit6,b=tempdxbit6,out=dxbit6);
+	Nand(a=tempdxbit7,b=tempdxbit7,out=dxbit7);
+	Nand(a=tempdxbit8,b=tempdxbit8,out=dxbit8);
+	Nand(a=tempdxbit9,b=tempdxbit9,out=dxbit9);
+	Nand(a=tempdxbit10,b=tempdxbit10,out=dxbit10);
+	Nand(a=tempdxbit11,b=tempdxbit11,out=dxbit11);
+	Nand(a=tempdxbit12,b=tempdxbit12,out=dxbit12);
+	Nand(a=tempdxbit13,b=tempdxbit13,out=dxbit13);
+	Nand(a=tempdxbit14,b=tempdxbit14,out=dxbit14);
+	Nand(a=tempdxbit15,b=tempdxbit15,out=dxbit15);
+	
+	//ex-
+	Nand(a=e[0],b=x-,out=tempex-bit0);
+	Nand(a=e[1],b=x-,out=tempex-bit1);
+	Nand(a=e[2],b=x-,out=tempex-bit2);
+	Nand(a=e[3],b=x-,out=tempex-bit3);
+	Nand(a=e[4],b=x-,out=tempex-bit4);
+	Nand(a=e[5],b=x-,out=tempex-bit5);
+	Nand(a=e[6],b=x-,out=tempex-bit6);
+	Nand(a=e[7],b=x-,out=tempex-bit7);
+	Nand(a=e[8],b=x-,out=tempex-bit8);
+	Nand(a=e[9],b=x-,out=tempex-bit9);
+	Nand(a=e[10],b=x-,out=tempex-bit10);
+	Nand(a=e[11],b=x-,out=tempex-bit11);
+	Nand(a=e[12],b=x-,out=tempex-bit12);
+	Nand(a=e[13],b=x-,out=tempex-bit13);
+	Nand(a=e[14],b=x-,out=tempex-bit14);
+	Nand(a=e[15],b=x-,out=tempex-bit15);
+	
+	Nand(a=tempex-bit0,b=tempex-bit0,out=ex-bit0);
+	Nand(a=tempex-bit1,b=tempex-bit1,out=ex-bit1);
+	Nand(a=tempex-bit2,b=tempex-bit2,out=ex-bit2);
+	Nand(a=tempex-bit3,b=tempex-bit3,out=ex-bit3);
+	Nand(a=tempex-bit4,b=tempex-bit4,out=ex-bit4);
+	Nand(a=tempex-bit5,b=tempex-bit5,out=ex-bit5);
+	Nand(a=tempex-bit6,b=tempex-bit6,out=ex-bit6);
+	Nand(a=tempex-bit7,b=tempex-bit7,out=ex-bit7);
+	Nand(a=tempex-bit8,b=tempex-bit8,out=ex-bit8);
+	Nand(a=tempex-bit9,b=tempex-bit9,out=ex-bit9);
+	Nand(a=tempex-bit10,b=tempex-bit10,out=ex-bit10);
+	Nand(a=tempex-bit11,b=tempex-bit11,out=ex-bit11);
+	Nand(a=tempex-bit12,b=tempex-bit12,out=ex-bit12);
+	Nand(a=tempex-bit13,b=tempex-bit13,out=ex-bit13);
+	Nand(a=tempex-bit14,b=tempex-bit14,out=ex-bit14);
+	Nand(a=tempex-bit15,b=tempex-bit15,out=ex-bit15);
+	
+	//fx
+	Nand(a=f[0],b=x,out=tempfxbit0);
+	Nand(a=f[1],b=x,out=tempfxbit1);
+	Nand(a=f[2],b=x,out=tempfxbit2);
+	Nand(a=f[3],b=x,out=tempfxbit3);
+	Nand(a=f[4],b=x,out=tempfxbit4);
+	Nand(a=f[5],b=x,out=tempfxbit5);
+	Nand(a=f[6],b=x,out=tempfxbit6);
+	Nand(a=f[7],b=x,out=tempfxbit7);
+	Nand(a=f[8],b=x,out=tempfxbit8);
+	Nand(a=f[9],b=x,out=tempfxbit9);
+	Nand(a=f[10],b=x,out=tempfxbit10);
+	Nand(a=f[11],b=x,out=tempfxbit11);
+	Nand(a=f[12],b=x,out=tempfxbit12);
+	Nand(a=f[13],b=x,out=tempfxbit13);
+	Nand(a=f[14],b=x,out=tempfxbit14);
+	Nand(a=f[15],b=x,out=tempfxbit15);
+	
+	Nand(a=tempfxbit0,b=tempfxbit0,out=fxbit0);
+	Nand(a=tempfxbit1,b=tempfxbit1,out=fxbit1);
+	Nand(a=tempfxbit2,b=tempfxbit2,out=fxbit2);
+	Nand(a=tempfxbit3,b=tempfxbit3,out=fxbit3);
+	Nand(a=tempfxbit4,b=tempfxbit4,out=fxbit4);
+	Nand(a=tempfxbit5,b=tempfxbit5,out=fxbit5);
+	Nand(a=tempfxbit6,b=tempfxbit6,out=fxbit6);
+	Nand(a=tempfxbit7,b=tempfxbit7,out=fxbit7);
+	Nand(a=tempfxbit8,b=tempfxbit8,out=fxbit8);
+	Nand(a=tempfxbit9,b=tempfxbit9,out=fxbit9);
+	Nand(a=tempfxbit10,b=tempfxbit10,out=fxbit10);
+	Nand(a=tempfxbit11,b=tempfxbit11,out=fxbit11);
+	Nand(a=tempfxbit12,b=tempfxbit12,out=fxbit12);
+	Nand(a=tempfxbit13,b=tempfxbit13,out=fxbit13);
+	Nand(a=tempfxbit14,b=tempfxbit14,out=fxbit14);
+	Nand(a=tempfxbit15,b=tempfxbit15,out=fxbit15);
+	
+	//gx-
+	Nand(a=g[0],b=x-,out=tempgx-bit0);
+	Nand(a=g[1],b=x-,out=tempgx-bit1);
+	Nand(a=g[2],b=x-,out=tempgx-bit2);
+	Nand(a=g[3],b=x-,out=tempgx-bit3);
+	Nand(a=g[4],b=x-,out=tempgx-bit4);
+	Nand(a=g[5],b=x-,out=tempgx-bit5);
+	Nand(a=g[6],b=x-,out=tempgx-bit6);
+	Nand(a=g[7],b=x-,out=tempgx-bit7);
+	Nand(a=g[8],b=x-,out=tempgx-bit8);
+	Nand(a=g[9],b=x-,out=tempgx-bit9);
+	Nand(a=g[10],b=x-,out=tempgx-bit10);
+	Nand(a=g[11],b=x-,out=tempgx-bit11);
+	Nand(a=g[12],b=x-,out=tempgx-bit12);
+	Nand(a=g[13],b=x-,out=tempgx-bit13);
+	Nand(a=g[14],b=x-,out=tempgx-bit14);
+	Nand(a=g[15],b=x-,out=tempgx-bit15);
+	
+	Nand(a=tempgx-bit0,b=tempgx-bit0,out=gx-bit0);
+	Nand(a=tempgx-bit1,b=tempgx-bit1,out=gx-bit1);
+	Nand(a=tempgx-bit2,b=tempgx-bit2,out=gx-bit2);
+	Nand(a=tempgx-bit3,b=tempgx-bit3,out=gx-bit3);
+	Nand(a=tempgx-bit4,b=tempgx-bit4,out=gx-bit4);
+	Nand(a=tempgx-bit5,b=tempgx-bit5,out=gx-bit5);
+	Nand(a=tempgx-bit6,b=tempgx-bit6,out=gx-bit6);
+	Nand(a=tempgx-bit7,b=tempgx-bit7,out=gx-bit7);
+	Nand(a=tempgx-bit8,b=tempgx-bit8,out=gx-bit8);
+	Nand(a=tempgx-bit9,b=tempgx-bit9,out=gx-bit9);
+	Nand(a=tempgx-bit10,b=tempgx-bit10,out=gx-bit10);
+	Nand(a=tempgx-bit11,b=tempgx-bit11,out=gx-bit11);
+	Nand(a=tempgx-bit12,b=tempgx-bit12,out=gx-bit12);
+	Nand(a=tempgx-bit13,b=tempgx-bit13,out=gx-bit13);
+	Nand(a=tempgx-bit14,b=tempgx-bit14,out=gx-bit14);
+	Nand(a=tempgx-bit15,b=tempgx-bit15,out=gx-bit15);
+	
+	//hx
+	Nand(a=h[0],b=x,out=temphxbit0);
+	Nand(a=h[1],b=x,out=temphxbit1);
+	Nand(a=h[2],b=x,out=temphxbit2);
+	Nand(a=h[3],b=x,out=temphxbit3);
+	Nand(a=h[4],b=x,out=temphxbit4);
+	Nand(a=h[5],b=x,out=temphxbit5);
+	Nand(a=h[6],b=x,out=temphxbit6);
+	Nand(a=h[7],b=x,out=temphxbit7);
+	Nand(a=h[8],b=x,out=temphxbit8);
+	Nand(a=h[9],b=x,out=temphxbit9);
+	Nand(a=h[10],b=x,out=temphxbit10);
+	Nand(a=h[11],b=x,out=temphxbit11);
+	Nand(a=h[12],b=x,out=temphxbit12);
+	Nand(a=h[13],b=x,out=temphxbit13);
+	Nand(a=h[14],b=x,out=temphxbit14);
+	Nand(a=h[15],b=x,out=temphxbit15);
+	
+	Nand(a=temphxbit0,b=temphxbit0,out=hxbit0);
+	Nand(a=temphxbit1,b=temphxbit1,out=hxbit1);
+	Nand(a=temphxbit2,b=temphxbit2,out=hxbit2);
+	Nand(a=temphxbit3,b=temphxbit3,out=hxbit3);
+	Nand(a=temphxbit4,b=temphxbit4,out=hxbit4);
+	Nand(a=temphxbit5,b=temphxbit5,out=hxbit5);
+	Nand(a=temphxbit6,b=temphxbit6,out=hxbit6);
+	Nand(a=temphxbit7,b=temphxbit7,out=hxbit7);
+	Nand(a=temphxbit8,b=temphxbit8,out=hxbit8);
+	Nand(a=temphxbit9,b=temphxbit9,out=hxbit9);
+	Nand(a=temphxbit10,b=temphxbit10,out=hxbit10);
+	Nand(a=temphxbit11,b=temphxbit11,out=hxbit11);
+	Nand(a=temphxbit12,b=temphxbit12,out=hxbit12);
+	Nand(a=temphxbit13,b=temphxbit13,out=hxbit13);
+	Nand(a=temphxbit14,b=temphxbit14,out=hxbit14);
+	Nand(a=temphxbit15,b=temphxbit15,out=hxbit15);
+	
+	//Now not and nand each (because OR)
+	//ax- with bx, cx- with dx, ex- with fx, gx- with hx
+	//result will be alpha-bit0..15, and so on.
+	
+	Nand(a=ax-bit0,	b=ax-bit0, out = NOTax-bit0);
+	Nand(a=ax-bit1,	b=ax-bit1, out = NOTax-bit1);
+	Nand(a=ax-bit2,	b=ax-bit2, out = NOTax-bit2);
+	Nand(a=ax-bit3,	b=ax-bit3, out = NOTax-bit3);
+	Nand(a=ax-bit4,	b=ax-bit4, out = NOTax-bit4);
+	Nand(a=ax-bit5,	b=ax-bit5, out = NOTax-bit5);
+	Nand(a=ax-bit6,	b=ax-bit6, out = NOTax-bit6);
+	Nand(a=ax-bit7,	b=ax-bit7, out = NOTax-bit7);
+	Nand(a=ax-bit8,	b=ax-bit8, out = NOTax-bit8);
+	Nand(a=ax-bit9,	b=ax-bit9, out = NOTax-bit9);
+	Nand(a=ax-bit10,b=ax-bit10, out = NOTax-bit10);
+	Nand(a=ax-bit11,b=ax-bit11, out = NOTax-bit11);
+	Nand(a=ax-bit12,b=ax-bit12, out = NOTax-bit12);
+	Nand(a=ax-bit13,b=ax-bit13, out = NOTax-bit13);
+	Nand(a=ax-bit14,b=ax-bit14, out = NOTax-bit14);
+	Nand(a=ax-bit15,b=ax-bit15, out = NOTax-bit15);
+	
+	Nand(a=bxbit0,	b=bxbit0, out = NOTbxbit0);
+	Nand(a=bxbit1,	b=bxbit1, out = NOTbxbit1);
+	Nand(a=bxbit2,	b=bxbit2, out = NOTbxbit2);
+	Nand(a=bxbit3,	b=bxbit3, out = NOTbxbit3);
+	Nand(a=bxbit4,	b=bxbit4, out = NOTbxbit4);
+	Nand(a=bxbit5,	b=bxbit5, out = NOTbxbit5);
+	Nand(a=bxbit6,	b=bxbit6, out = NOTbxbit6);
+	Nand(a=bxbit7,	b=bxbit7, out = NOTbxbit7);
+	Nand(a=bxbit8,	b=bxbit8, out = NOTbxbit8);
+	Nand(a=bxbit9,	b=bxbit9, out = NOTbxbit9);
+	Nand(a=bxbit10,b=bxbit10, out = NOTbxbit10);
+	Nand(a=bxbit11,b=bxbit11, out = NOTbxbit11);
+	Nand(a=bxbit12,b=bxbit12, out = NOTbxbit12);
+	Nand(a=bxbit13,b=bxbit13, out = NOTbxbit13);
+	Nand(a=bxbit14,b=bxbit14, out = NOTbxbit14);
+	Nand(a=bxbit15,b=bxbit15, out = NOTbxbit15);
+	
+	Nand(a=cx-bit0,	b=cx-bit0, out = NOTcx-bit0);
+	Nand(a=cx-bit1,	b=cx-bit1, out = NOTcx-bit1);
+	Nand(a=cx-bit2,	b=cx-bit2, out = NOTcx-bit2);
+	Nand(a=cx-bit3,	b=cx-bit3, out = NOTcx-bit3);
+	Nand(a=cx-bit4,	b=cx-bit4, out = NOTcx-bit4);
+	Nand(a=cx-bit5,	b=cx-bit5, out = NOTcx-bit5);
+	Nand(a=cx-bit6,	b=cx-bit6, out = NOTcx-bit6);
+	Nand(a=cx-bit7,	b=cx-bit7, out = NOTcx-bit7);
+	Nand(a=cx-bit8,	b=cx-bit8, out = NOTcx-bit8);
+	Nand(a=cx-bit9,	b=cx-bit9, out = NOTcx-bit9);
+	Nand(a=cx-bit10,b=cx-bit10, out = NOTcx-bit10);
+	Nand(a=cx-bit11,b=cx-bit11, out = NOTcx-bit11);
+	Nand(a=cx-bit12,b=cx-bit12, out = NOTcx-bit12);
+	Nand(a=cx-bit13,b=cx-bit13, out = NOTcx-bit13);
+	Nand(a=cx-bit14,b=cx-bit14, out = NOTcx-bit14);
+	Nand(a=cx-bit15,b=cx-bit15, out = NOTcx-bit15);
+	
+	Nand(a=dxbit0,	b=dxbit0, out = NOTdxbit0);
+	Nand(a=dxbit1,	b=dxbit1, out = NOTdxbit1);
+	Nand(a=dxbit2,	b=dxbit2, out = NOTdxbit2);
+	Nand(a=dxbit3,	b=dxbit3, out = NOTdxbit3);
+	Nand(a=dxbit4,	b=dxbit4, out = NOTdxbit4);
+	Nand(a=dxbit5,	b=dxbit5, out = NOTdxbit5);
+	Nand(a=dxbit6,	b=dxbit6, out = NOTdxbit6);
+	Nand(a=dxbit7,	b=dxbit7, out = NOTdxbit7);
+	Nand(a=dxbit8,	b=dxbit8, out = NOTdxbit8);
+	Nand(a=dxbit9,	b=dxbit9, out = NOTdxbit9);
+	Nand(a=dxbit10,b=dxbit10, out = NOTdxbit10);
+	Nand(a=dxbit11,b=dxbit11, out = NOTdxbit11);
+	Nand(a=dxbit12,b=dxbit12, out = NOTdxbit12);
+	Nand(a=dxbit13,b=dxbit13, out = NOTdxbit13);
+	Nand(a=dxbit14,b=dxbit14, out = NOTdxbit14);
+	Nand(a=dxbit15,b=dxbit15, out = NOTdxbit15);
+	
+	Nand(a=ex-bit0,	b=ex-bit0, out = NOTex-bit0);
+	Nand(a=ex-bit1,	b=ex-bit1, out = NOTex-bit1);
+	Nand(a=ex-bit2,	b=ex-bit2, out = NOTex-bit2);
+	Nand(a=ex-bit3,	b=ex-bit3, out = NOTex-bit3);
+	Nand(a=ex-bit4,	b=ex-bit4, out = NOTex-bit4);
+	Nand(a=ex-bit5,	b=ex-bit5, out = NOTex-bit5);
+	Nand(a=ex-bit6,	b=ex-bit6, out = NOTex-bit6);
+	Nand(a=ex-bit7,	b=ex-bit7, out = NOTex-bit7);
+	Nand(a=ex-bit8,	b=ex-bit8, out = NOTex-bit8);
+	Nand(a=ex-bit9,	b=ex-bit9, out = NOTex-bit9);
+	Nand(a=ex-bit10,b=ex-bit10, out = NOTex-bit10);
+	Nand(a=ex-bit11,b=ex-bit11, out = NOTex-bit11);
+	Nand(a=ex-bit12,b=ex-bit12, out = NOTex-bit12);
+	Nand(a=ex-bit13,b=ex-bit13, out = NOTex-bit13);
+	Nand(a=ex-bit14,b=ex-bit14, out = NOTex-bit14);
+	Nand(a=ex-bit15,b=ex-bit15, out = NOTex-bit15);
+	
+	Nand(a=fxbit0,	b=fxbit0, out = NOTfxbit0);
+	Nand(a=fxbit1,	b=fxbit1, out = NOTfxbit1);
+	Nand(a=fxbit2,	b=fxbit2, out = NOTfxbit2);
+	Nand(a=fxbit3,	b=fxbit3, out = NOTfxbit3);
+	Nand(a=fxbit4,	b=fxbit4, out = NOTfxbit4);
+	Nand(a=fxbit5,	b=fxbit5, out = NOTfxbit5);
+	Nand(a=fxbit6,	b=fxbit6, out = NOTfxbit6);
+	Nand(a=fxbit7,	b=fxbit7, out = NOTfxbit7);
+	Nand(a=fxbit8,	b=fxbit8, out = NOTfxbit8);
+	Nand(a=fxbit9,	b=fxbit9, out = NOTfxbit9);
+	Nand(a=fxbit10,b=fxbit10, out = NOTfxbit10);
+	Nand(a=fxbit11,b=fxbit11, out = NOTfxbit11);
+	Nand(a=fxbit12,b=fxbit12, out = NOTfxbit12);
+	Nand(a=fxbit13,b=fxbit13, out = NOTfxbit13);
+	Nand(a=fxbit14,b=fxbit14, out = NOTfxbit14);
+	Nand(a=fxbit15,b=fxbit15, out = NOTfxbit15);
+	
+	Nand(a=gx-bit0,	b=gx-bit0, out = NOTgx-bit0);
+	Nand(a=gx-bit1,	b=gx-bit1, out = NOTgx-bit1);
+	Nand(a=gx-bit2,	b=gx-bit2, out = NOTgx-bit2);
+	Nand(a=gx-bit3,	b=gx-bit3, out = NOTgx-bit3);
+	Nand(a=gx-bit4,	b=gx-bit4, out = NOTgx-bit4);
+	Nand(a=gx-bit5,	b=gx-bit5, out = NOTgx-bit5);
+	Nand(a=gx-bit6,	b=gx-bit6, out = NOTgx-bit6);
+	Nand(a=gx-bit7,	b=gx-bit7, out = NOTgx-bit7);
+	Nand(a=gx-bit8,	b=gx-bit8, out = NOTgx-bit8);
+	Nand(a=gx-bit9,	b=gx-bit9, out = NOTgx-bit9);
+	Nand(a=gx-bit10,b=gx-bit10, out = NOTgx-bit10);
+	Nand(a=gx-bit11,b=gx-bit11, out = NOTgx-bit11);
+	Nand(a=gx-bit12,b=gx-bit12, out = NOTgx-bit12);
+	Nand(a=gx-bit13,b=gx-bit13, out = NOTgx-bit13);
+	Nand(a=gx-bit14,b=gx-bit14, out = NOTgx-bit14);
+	Nand(a=gx-bit15,b=gx-bit15, out = NOTgx-bit15);
+	
+	Nand(a=hxbit0,	b=hxbit0, out = NOThxbit0);
+	Nand(a=hxbit1,	b=hxbit1, out = NOThxbit1);
+	Nand(a=hxbit2,	b=hxbit2, out = NOThxbit2);
+	Nand(a=hxbit3,	b=hxbit3, out = NOThxbit3);
+	Nand(a=hxbit4,	b=hxbit4, out = NOThxbit4);
+	Nand(a=hxbit5,	b=hxbit5, out = NOThxbit5);
+	Nand(a=hxbit6,	b=hxbit6, out = NOThxbit6);
+	Nand(a=hxbit7,	b=hxbit7, out = NOThxbit7);
+	Nand(a=hxbit8,	b=hxbit8, out = NOThxbit8);
+	Nand(a=hxbit9,	b=hxbit9, out = NOThxbit9);
+	Nand(a=hxbit10,b=hxbit10, out = NOThxbit10);
+	Nand(a=hxbit11,b=hxbit11, out = NOThxbit11);
+	Nand(a=hxbit12,b=hxbit12, out = NOThxbit12);
+	Nand(a=hxbit13,b=hxbit13, out = NOThxbit13);
+	Nand(a=hxbit14,b=hxbit14, out = NOThxbit14);
+	Nand(a=hxbit15,b=hxbit15, out = NOThxbit15);
+	
+	//ax-bit0..15 nand bxbit0..15 = alphabit0..15
+	
+
+	Nand(a=NOTax-bit0, b=NOTbxbit0, out=alphabit0);
+	Nand(a=NOTax-bit1, b=NOTbxbit1, out=alphabit1);
+	Nand(a=NOTax-bit2, b=NOTbxbit2, out=alphabit2);
+	Nand(a=NOTax-bit3, b=NOTbxbit3, out=alphabit3);
+	Nand(a=NOTax-bit4, b=NOTbxbit4, out=alphabit4);
+	Nand(a=NOTax-bit5, b=NOTbxbit5, out=alphabit5);
+	Nand(a=NOTax-bit6, b=NOTbxbit6, out=alphabit6);
+	Nand(a=NOTax-bit7, b=NOTbxbit7, out=alphabit7);
+	Nand(a=NOTax-bit8, b=NOTbxbit8, out=alphabit8);
+	Nand(a=NOTax-bit9, b=NOTbxbit9, out=alphabit9);
+	Nand(a=NOTax-bit10, b=NOTbxbit10, out=alphabit10);
+	Nand(a=NOTax-bit11, b=NOTbxbit11, out=alphabit11);
+	Nand(a=NOTax-bit12, b=NOTbxbit12, out=alphabit12);
+	Nand(a=NOTax-bit13, b=NOTbxbit13, out=alphabit13);
+	Nand(a=NOTax-bit14, b=NOTbxbit14, out=alphabit14);
+	Nand(a=NOTax-bit15, b=NOTbxbit15, out=alphabit15);
+	
+	Nand(a=NOTcx-bit0, b=NOTdxbit0, out=betabit0);
+	Nand(a=NOTcx-bit1, b=NOTdxbit1, out=betabit1);
+	Nand(a=NOTcx-bit2, b=NOTdxbit2, out=betabit2);
+	Nand(a=NOTcx-bit3, b=NOTdxbit3, out=betabit3);
+	Nand(a=NOTcx-bit4, b=NOTdxbit4, out=betabit4);
+	Nand(a=NOTcx-bit5, b=NOTdxbit5, out=betabit5);
+	Nand(a=NOTcx-bit6, b=NOTdxbit6, out=betabit6);
+	Nand(a=NOTcx-bit7, b=NOTdxbit7, out=betabit7);
+	Nand(a=NOTcx-bit8, b=NOTdxbit8, out=betabit8);
+	Nand(a=NOTcx-bit9, b=NOTdxbit9, out=betabit9);
+	Nand(a=NOTcx-bit10, b=NOTdxbit10, out=betabit10);
+	Nand(a=NOTcx-bit11, b=NOTdxbit11, out=betabit11);
+	Nand(a=NOTcx-bit12, b=NOTdxbit12, out=betabit12);
+	Nand(a=NOTcx-bit13, b=NOTdxbit13, out=betabit13);
+	Nand(a=NOTcx-bit14, b=NOTdxbit14, out=betabit14);
+	Nand(a=NOTcx-bit15, b=NOTdxbit15, out=betabit15);
+	
+	Nand(a=NOTex-bit0, b=NOTfxbit0, out=gammabit0);
+	Nand(a=NOTex-bit1, b=NOTfxbit1, out=gammabit1);
+	Nand(a=NOTex-bit2, b=NOTfxbit2, out=gammabit2);
+	Nand(a=NOTex-bit3, b=NOTfxbit3, out=gammabit3);
+	Nand(a=NOTex-bit4, b=NOTfxbit4, out=gammabit4);
+	Nand(a=NOTex-bit5, b=NOTfxbit5, out=gammabit5);
+	Nand(a=NOTex-bit6, b=NOTfxbit6, out=gammabit6);
+	Nand(a=NOTex-bit7, b=NOTfxbit7, out=gammabit7);
+	Nand(a=NOTex-bit8, b=NOTfxbit8, out=gammabit8);
+	Nand(a=NOTex-bit9, b=NOTfxbit9, out=gammabit9);
+	Nand(a=NOTex-bit10, b=NOTfxbit10, out=gammabit10);
+	Nand(a=NOTex-bit11, b=NOTfxbit11, out=gammabit11);
+	Nand(a=NOTex-bit12, b=NOTfxbit12, out=gammabit12);
+	Nand(a=NOTex-bit13, b=NOTfxbit13, out=gammabit13);
+	Nand(a=NOTex-bit14, b=NOTfxbit14, out=gammabit14);
+	Nand(a=NOTex-bit15, b=NOTfxbit15, out=gammabit15);
+	
+	Nand(a=NOTgx-bit0, b=NOThxbit0, out=deltabit0);
+	Nand(a=NOTgx-bit1, b=NOThxbit1, out=deltabit1);
+	Nand(a=NOTgx-bit2, b=NOThxbit2, out=deltabit2);
+	Nand(a=NOTgx-bit3, b=NOThxbit3, out=deltabit3);
+	Nand(a=NOTgx-bit4, b=NOThxbit4, out=deltabit4);
+	Nand(a=NOTgx-bit5, b=NOThxbit5, out=deltabit5);
+	Nand(a=NOTgx-bit6, b=NOThxbit6, out=deltabit6);
+	Nand(a=NOTgx-bit7, b=NOThxbit7, out=deltabit7);
+	Nand(a=NOTgx-bit8, b=NOThxbit8, out=deltabit8);
+	Nand(a=NOTgx-bit9, b=NOThxbit9, out=deltabit9);
+	Nand(a=NOTgx-bit10, b=NOThxbit10, out=deltabit10);
+	Nand(a=NOTgx-bit11, b=NOThxbit11, out=deltabit11);
+	Nand(a=NOTgx-bit12, b=NOThxbit12, out=deltabit12);
+	Nand(a=NOTgx-bit13, b=NOThxbit13, out=deltabit13);
+	Nand(a=NOTgx-bit14, b=NOThxbit14, out=deltabit14);
+	Nand(a=NOTgx-bit15, b=NOThxbit15, out=deltabit15);
+	
+	
+	
+	Nand(a=sel[1],b=sel[1],out=y-);
+	Nand(a=y-,b=y-,out=y);
+	
+	Nand(a=alphabit0,b=y-,out=tempalphay-bit0);
+	Nand(a=alphabit1,b=y-,out=tempalphay-bit1);
+	Nand(a=alphabit2,b=y-,out=tempalphay-bit2);
+	Nand(a=alphabit3,b=y-,out=tempalphay-bit3);
+	Nand(a=alphabit4,b=y-,out=tempalphay-bit4);
+	Nand(a=alphabit5,b=y-,out=tempalphay-bit5);
+	Nand(a=alphabit6,b=y-,out=tempalphay-bit6);
+	Nand(a=alphabit7,b=y-,out=tempalphay-bit7);
+	Nand(a=alphabit8,b=y-,out=tempalphay-bit8);
+	Nand(a=alphabit9,b=y-,out=tempalphay-bit9);
+	Nand(a=alphabit10,b=y-,out=tempalphay-bit10);
+	Nand(a=alphabit11,b=y-,out=tempalphay-bit11);
+	Nand(a=alphabit12,b=y-,out=tempalphay-bit12);
+	Nand(a=alphabit13,b=y-,out=tempalphay-bit13);
+	Nand(a=alphabit14,b=y-,out=tempalphay-bit14);
+	Nand(a=alphabit15,b=y-,out=tempalphay-bit15);
+	
+	Nand(a=tempalphay-bit0,b=tempalphay-bit0,out=alphay-bit0);
+	Nand(a=tempalphay-bit1,b=tempalphay-bit1,out=alphay-bit1);
+	Nand(a=tempalphay-bit2,b=tempalphay-bit2,out=alphay-bit2);
+	Nand(a=tempalphay-bit3,b=tempalphay-bit3,out=alphay-bit3);
+	Nand(a=tempalphay-bit4,b=tempalphay-bit4,out=alphay-bit4);
+	Nand(a=tempalphay-bit5,b=tempalphay-bit5,out=alphay-bit5);
+	Nand(a=tempalphay-bit6,b=tempalphay-bit6,out=alphay-bit6);
+	Nand(a=tempalphay-bit7,b=tempalphay-bit7,out=alphay-bit7);
+	Nand(a=tempalphay-bit8,b=tempalphay-bit8,out=alphay-bit8);
+	Nand(a=tempalphay-bit9,b=tempalphay-bit9,out=alphay-bit9);
+	Nand(a=tempalphay-bit10,b=tempalphay-bit10,out=alphay-bit10);
+	Nand(a=tempalphay-bit11,b=tempalphay-bit11,out=alphay-bit11);
+	Nand(a=tempalphay-bit12,b=tempalphay-bit12,out=alphay-bit12);
+	Nand(a=tempalphay-bit13,b=tempalphay-bit13,out=alphay-bit13);
+	Nand(a=tempalphay-bit14,b=tempalphay-bit14,out=alphay-bit14);
+	Nand(a=tempalphay-bit15,b=tempalphay-bit15,out=alphay-bit15);
+	
+	
+	Nand(a=betabit0,b=y,out=tempbetaybit0);
+	Nand(a=betabit1,b=y,out=tempbetaybit1);
+	Nand(a=betabit2,b=y,out=tempbetaybit2);
+	Nand(a=betabit3,b=y,out=tempbetaybit3);
+	Nand(a=betabit4,b=y,out=tempbetaybit4);
+	Nand(a=betabit5,b=y,out=tempbetaybit5);
+	Nand(a=betabit6,b=y,out=tempbetaybit6);
+	Nand(a=betabit7,b=y,out=tempbetaybit7);
+	Nand(a=betabit8,b=y,out=tempbetaybit8);
+	Nand(a=betabit9,b=y,out=tempbetaybit9);
+	Nand(a=betabit10,b=y,out=tempbetaybit10);
+	Nand(a=betabit11,b=y,out=tempbetaybit11);
+	Nand(a=betabit12,b=y,out=tempbetaybit12);
+	Nand(a=betabit13,b=y,out=tempbetaybit13);
+	Nand(a=betabit14,b=y,out=tempbetaybit14);
+	Nand(a=betabit15,b=y,out=tempbetaybit15);
+	
+	Nand(a=tempbetaybit0,b=tempbetaybit0,out=betaybit0);
+	Nand(a=tempbetaybit1,b=tempbetaybit1,out=betaybit1);
+	Nand(a=tempbetaybit2,b=tempbetaybit2,out=betaybit2);
+	Nand(a=tempbetaybit3,b=tempbetaybit3,out=betaybit3);
+	Nand(a=tempbetaybit4,b=tempbetaybit4,out=betaybit4);
+	Nand(a=tempbetaybit5,b=tempbetaybit5,out=betaybit5);
+	Nand(a=tempbetaybit6,b=tempbetaybit6,out=betaybit6);
+	Nand(a=tempbetaybit7,b=tempbetaybit7,out=betaybit7);
+	Nand(a=tempbetaybit8,b=tempbetaybit8,out=betaybit8);
+	Nand(a=tempbetaybit9,b=tempbetaybit9,out=betaybit9);
+	Nand(a=tempbetaybit10,b=tempbetaybit10,out=betaybit10);
+	Nand(a=tempbetaybit11,b=tempbetaybit11,out=betaybit11);
+	Nand(a=tempbetaybit12,b=tempbetaybit12,out=betaybit12);
+	Nand(a=tempbetaybit13,b=tempbetaybit13,out=betaybit13);
+	Nand(a=tempbetaybit14,b=tempbetaybit14,out=betaybit14);
+	Nand(a=tempbetaybit15,b=tempbetaybit15,out=betaybit15);
+	
+	
+
+	Nand(a=gammabit0,b=y-,out=tempgammay-bit0);
+	Nand(a=gammabit1,b=y-,out=tempgammay-bit1);
+	Nand(a=gammabit2,b=y-,out=tempgammay-bit2);
+	Nand(a=gammabit3,b=y-,out=tempgammay-bit3);
+	Nand(a=gammabit4,b=y-,out=tempgammay-bit4);
+	Nand(a=gammabit5,b=y-,out=tempgammay-bit5);
+	Nand(a=gammabit6,b=y-,out=tempgammay-bit6);
+	Nand(a=gammabit7,b=y-,out=tempgammay-bit7);
+	Nand(a=gammabit8,b=y-,out=tempgammay-bit8);
+	Nand(a=gammabit9,b=y-,out=tempgammay-bit9);
+	Nand(a=gammabit10,b=y-,out=tempgammay-bit10);
+	Nand(a=gammabit11,b=y-,out=tempgammay-bit11);
+	Nand(a=gammabit12,b=y-,out=tempgammay-bit12);
+	Nand(a=gammabit13,b=y-,out=tempgammay-bit13);
+	Nand(a=gammabit14,b=y-,out=tempgammay-bit14);
+	Nand(a=gammabit15,b=y-,out=tempgammay-bit15);
+	
+	Nand(a=tempgammay-bit0,b=tempgammay-bit0,out=gammay-bit0);
+	Nand(a=tempgammay-bit1,b=tempgammay-bit1,out=gammay-bit1);
+	Nand(a=tempgammay-bit2,b=tempgammay-bit2,out=gammay-bit2);
+	Nand(a=tempgammay-bit3,b=tempgammay-bit3,out=gammay-bit3);
+	Nand(a=tempgammay-bit4,b=tempgammay-bit4,out=gammay-bit4);
+	Nand(a=tempgammay-bit5,b=tempgammay-bit5,out=gammay-bit5);
+	Nand(a=tempgammay-bit6,b=tempgammay-bit6,out=gammay-bit6);
+	Nand(a=tempgammay-bit7,b=tempgammay-bit7,out=gammay-bit7);
+	Nand(a=tempgammay-bit8,b=tempgammay-bit8,out=gammay-bit8);
+	Nand(a=tempgammay-bit9,b=tempgammay-bit9,out=gammay-bit9);
+	Nand(a=tempgammay-bit10,b=tempgammay-bit10,out=gammay-bit10);
+	Nand(a=tempgammay-bit11,b=tempgammay-bit11,out=gammay-bit11);
+	Nand(a=tempgammay-bit12,b=tempgammay-bit12,out=gammay-bit12);
+	Nand(a=tempgammay-bit13,b=tempgammay-bit13,out=gammay-bit13);
+	Nand(a=tempgammay-bit14,b=tempgammay-bit14,out=gammay-bit14);
+	Nand(a=tempgammay-bit15,b=tempgammay-bit15,out=gammay-bit15);
+	
+	
+	Nand(a=deltabit0,b=y,out=tempdeltaybit0);
+	Nand(a=deltabit1,b=y,out=tempdeltaybit1);
+	Nand(a=deltabit2,b=y,out=tempdeltaybit2);
+	Nand(a=deltabit3,b=y,out=tempdeltaybit3);
+	Nand(a=deltabit4,b=y,out=tempdeltaybit4);
+	Nand(a=deltabit5,b=y,out=tempdeltaybit5);
+	Nand(a=deltabit6,b=y,out=tempdeltaybit6);
+	Nand(a=deltabit7,b=y,out=tempdeltaybit7);
+	Nand(a=deltabit8,b=y,out=tempdeltaybit8);
+	Nand(a=deltabit9,b=y,out=tempdeltaybit9);
+	Nand(a=deltabit10,b=y,out=tempdeltaybit10);
+	Nand(a=deltabit11,b=y,out=tempdeltaybit11);
+	Nand(a=deltabit12,b=y,out=tempdeltaybit12);
+	Nand(a=deltabit13,b=y,out=tempdeltaybit13);
+	Nand(a=deltabit14,b=y,out=tempdeltaybit14);
+	Nand(a=deltabit15,b=y,out=tempdeltaybit15);
+	
+	Nand(a=tempdeltaybit0,b=tempdeltaybit0,out=deltaybit0);
+	Nand(a=tempdeltaybit1,b=tempdeltaybit1,out=deltaybit1);
+	Nand(a=tempdeltaybit2,b=tempdeltaybit2,out=deltaybit2);
+	Nand(a=tempdeltaybit3,b=tempdeltaybit3,out=deltaybit3);
+	Nand(a=tempdeltaybit4,b=tempdeltaybit4,out=deltaybit4);
+	Nand(a=tempdeltaybit5,b=tempdeltaybit5,out=deltaybit5);
+	Nand(a=tempdeltaybit6,b=tempdeltaybit6,out=deltaybit6);
+	Nand(a=tempdeltaybit7,b=tempdeltaybit7,out=deltaybit7);
+	Nand(a=tempdeltaybit8,b=tempdeltaybit8,out=deltaybit8);
+	Nand(a=tempdeltaybit9,b=tempdeltaybit9,out=deltaybit9);
+	Nand(a=tempdeltaybit10,b=tempdeltaybit10,out=deltaybit10);
+	Nand(a=tempdeltaybit11,b=tempdeltaybit11,out=deltaybit11);
+	Nand(a=tempdeltaybit12,b=tempdeltaybit12,out=deltaybit12);
+	Nand(a=tempdeltaybit13,b=tempdeltaybit13,out=deltaybit13);
+	Nand(a=tempdeltaybit14,b=tempdeltaybit14,out=deltaybit14);
+	Nand(a=tempdeltaybit15,b=tempdeltaybit15,out=deltaybit15);
+	
+	
+	Nand(a=alphay-bit0,	b=alphay-bit0, out = NOTalphay-bit0);
+	Nand(a=alphay-bit1,	b=alphay-bit1, out = NOTalphay-bit1);
+	Nand(a=alphay-bit2,	b=alphay-bit2, out = NOTalphay-bit2);
+	Nand(a=alphay-bit3,	b=alphay-bit3, out = NOTalphay-bit3);
+	Nand(a=alphay-bit4,	b=alphay-bit4, out = NOTalphay-bit4);
+	Nand(a=alphay-bit5,	b=alphay-bit5, out = NOTalphay-bit5);
+	Nand(a=alphay-bit6,	b=alphay-bit6, out = NOTalphay-bit6);
+	Nand(a=alphay-bit7,	b=alphay-bit7, out = NOTalphay-bit7);
+	Nand(a=alphay-bit8,	b=alphay-bit8, out = NOTalphay-bit8);
+	Nand(a=alphay-bit9,	b=alphay-bit9, out = NOTalphay-bit9);
+	Nand(a=alphay-bit10,b=alphay-bit10, out = NOTalphay-bit10);
+	Nand(a=alphay-bit11,b=alphay-bit11, out = NOTalphay-bit11);
+	Nand(a=alphay-bit12,b=alphay-bit12, out = NOTalphay-bit12);
+	Nand(a=alphay-bit13,b=alphay-bit13, out = NOTalphay-bit13);
+	Nand(a=alphay-bit14,b=alphay-bit14, out = NOTalphay-bit14);
+	Nand(a=alphay-bit15,b=alphay-bit15, out = NOTalphay-bit15);
+	
+	Nand(a=betaybit0,	b=betaybit0, out = NOTbetaybit0);
+	Nand(a=betaybit1,	b=betaybit1, out = NOTbetaybit1);
+	Nand(a=betaybit2,	b=betaybit2, out = NOTbetaybit2);
+	Nand(a=betaybit3,	b=betaybit3, out = NOTbetaybit3);
+	Nand(a=betaybit4,	b=betaybit4, out = NOTbetaybit4);
+	Nand(a=betaybit5,	b=betaybit5, out = NOTbetaybit5);
+	Nand(a=betaybit6,	b=betaybit6, out = NOTbetaybit6);
+	Nand(a=betaybit7,	b=betaybit7, out = NOTbetaybit7);
+	Nand(a=betaybit8,	b=betaybit8, out = NOTbetaybit8);
+	Nand(a=betaybit9,	b=betaybit9, out = NOTbetaybit9);
+	Nand(a=betaybit10,b=betaybit10, out = NOTbetaybit10);
+	Nand(a=betaybit11,b=betaybit11, out = NOTbetaybit11);
+	Nand(a=betaybit12,b=betaybit12, out = NOTbetaybit12);
+	Nand(a=betaybit13,b=betaybit13, out = NOTbetaybit13);
+	Nand(a=betaybit14,b=betaybit14, out = NOTbetaybit14);
+	Nand(a=betaybit15,b=betaybit15, out = NOTbetaybit15);
+	
+	Nand(a=gammay-bit0,	b=gammay-bit0, out = NOTgammay-bit0);
+	Nand(a=gammay-bit1,	b=gammay-bit1, out = NOTgammay-bit1);
+	Nand(a=gammay-bit2,	b=gammay-bit2, out = NOTgammay-bit2);
+	Nand(a=gammay-bit3,	b=gammay-bit3, out = NOTgammay-bit3);
+	Nand(a=gammay-bit4,	b=gammay-bit4, out = NOTgammay-bit4);
+	Nand(a=gammay-bit5,	b=gammay-bit5, out = NOTgammay-bit5);
+	Nand(a=gammay-bit6,	b=gammay-bit6, out = NOTgammay-bit6);
+	Nand(a=gammay-bit7,	b=gammay-bit7, out = NOTgammay-bit7);
+	Nand(a=gammay-bit8,	b=gammay-bit8, out = NOTgammay-bit8);
+	Nand(a=gammay-bit9,	b=gammay-bit9, out = NOTgammay-bit9);
+	Nand(a=gammay-bit10,b=gammay-bit10, out = NOTgammay-bit10);
+	Nand(a=gammay-bit11,b=gammay-bit11, out = NOTgammay-bit11);
+	Nand(a=gammay-bit12,b=gammay-bit12, out = NOTgammay-bit12);
+	Nand(a=gammay-bit13,b=gammay-bit13, out = NOTgammay-bit13);
+	Nand(a=gammay-bit14,b=gammay-bit14, out = NOTgammay-bit14);
+	Nand(a=gammay-bit15,b=gammay-bit15, out = NOTgammay-bit15);
+	
+	Nand(a=deltaybit0,	b=deltaybit0, out = NOTdeltaybit0);
+	Nand(a=deltaybit1,	b=deltaybit1, out = NOTdeltaybit1);
+	Nand(a=deltaybit2,	b=deltaybit2, out = NOTdeltaybit2);
+	Nand(a=deltaybit3,	b=deltaybit3, out = NOTdeltaybit3);
+	Nand(a=deltaybit4,	b=deltaybit4, out = NOTdeltaybit4);
+	Nand(a=deltaybit5,	b=deltaybit5, out = NOTdeltaybit5);
+	Nand(a=deltaybit6,	b=deltaybit6, out = NOTdeltaybit6);
+	Nand(a=deltaybit7,	b=deltaybit7, out = NOTdeltaybit7);
+	Nand(a=deltaybit8,	b=deltaybit8, out = NOTdeltaybit8);
+	Nand(a=deltaybit9,	b=deltaybit9, out = NOTdeltaybit9);
+	Nand(a=deltaybit10,b=deltaybit10, out = NOTdeltaybit10);
+	Nand(a=deltaybit11,b=deltaybit11, out = NOTdeltaybit11);
+	Nand(a=deltaybit12,b=deltaybit12, out = NOTdeltaybit12);
+	Nand(a=deltaybit13,b=deltaybit13, out = NOTdeltaybit13);
+	Nand(a=deltaybit14,b=deltaybit14, out = NOTdeltaybit14);
+	Nand(a=deltaybit15,b=deltaybit15, out = NOTdeltaybit15);
+	
+	
+	
+	Nand(a=NOTalphay-bit0, b=NOTbetaybit0, out=xbit0);
+	Nand(a=NOTalphay-bit1, b=NOTbetaybit1, out=xbit1);
+	Nand(a=NOTalphay-bit2, b=NOTbetaybit2, out=xbit2);
+	Nand(a=NOTalphay-bit3, b=NOTbetaybit3, out=xbit3);
+	Nand(a=NOTalphay-bit4, b=NOTbetaybit4, out=xbit4);
+	Nand(a=NOTalphay-bit5, b=NOTbetaybit5, out=xbit5);
+	Nand(a=NOTalphay-bit6, b=NOTbetaybit6, out=xbit6);
+	Nand(a=NOTalphay-bit7, b=NOTbetaybit7, out=xbit7);
+	Nand(a=NOTalphay-bit8, b=NOTbetaybit8, out=xbit8);
+	Nand(a=NOTalphay-bit9, b=NOTbetaybit9, out=xbit9);
+	Nand(a=NOTalphay-bit10, b=NOTbetaybit10, out=xbit10);
+	Nand(a=NOTalphay-bit11, b=NOTbetaybit11, out=xbit11);
+	Nand(a=NOTalphay-bit12, b=NOTbetaybit12, out=xbit12);
+	Nand(a=NOTalphay-bit13, b=NOTbetaybit13, out=xbit13);
+	Nand(a=NOTalphay-bit14, b=NOTbetaybit14, out=xbit14);
+	Nand(a=NOTalphay-bit15, b=NOTbetaybit15, out=xbit15);
+	
+	Nand(a=NOTgammay-bit0, b=NOTdeltaybit0, out=ybit0);
+	Nand(a=NOTgammay-bit1, b=NOTdeltaybit1, out=ybit1);
+	Nand(a=NOTgammay-bit2, b=NOTdeltaybit2, out=ybit2);
+	Nand(a=NOTgammay-bit3, b=NOTdeltaybit3, out=ybit3);
+	Nand(a=NOTgammay-bit4, b=NOTdeltaybit4, out=ybit4);
+	Nand(a=NOTgammay-bit5, b=NOTdeltaybit5, out=ybit5);
+	Nand(a=NOTgammay-bit6, b=NOTdeltaybit6, out=ybit6);
+	Nand(a=NOTgammay-bit7, b=NOTdeltaybit7, out=ybit7);
+	Nand(a=NOTgammay-bit8, b=NOTdeltaybit8, out=ybit8);
+	Nand(a=NOTgammay-bit9, b=NOTdeltaybit9, out=ybit9);
+	Nand(a=NOTgammay-bit10, b=NOTdeltaybit10, out=ybit10);
+	Nand(a=NOTgammay-bit11, b=NOTdeltaybit11, out=ybit11);
+	Nand(a=NOTgammay-bit12, b=NOTdeltaybit12, out=ybit12);
+	Nand(a=NOTgammay-bit13, b=NOTdeltaybit13, out=ybit13);
+	Nand(a=NOTgammay-bit14, b=NOTdeltaybit14, out=ybit14);
+	Nand(a=NOTgammay-bit15, b=NOTdeltaybit15, out=ybit15);
+	
+	
+	
+	//xbit0..15 AND z-, ybit0..15 AND z
+	//or results
+	
+	Nand(a=sel[2],b=sel[2],out=z-);
+	Nand(a=z-,b=z-,out=z);
+	
+	Nand(a=xbit0, b= z-, out= tempahrimanbit0);
+	Nand(a=xbit1, b= z-, out= tempahrimanbit1);
+	Nand(a=xbit2, b= z-, out= tempahrimanbit2);
+	Nand(a=xbit3, b= z-, out= tempahrimanbit3);	
+	Nand(a=xbit4, b= z-, out= tempahrimanbit4);
+	Nand(a=xbit5, b= z-, out= tempahrimanbit5);
+	Nand(a=xbit6, b= z-, out= tempahrimanbit6);
+	Nand(a=xbit7, b= z-, out= tempahrimanbit7);
+	Nand(a=xbit8, b= z-, out= tempahrimanbit8);
+	Nand(a=xbit9, b= z-, out= tempahrimanbit9);
+	Nand(a=xbit10, b= z-, out= tempahrimanbit10);
+	Nand(a=xbit11, b= z-, out= tempahrimanbit11);
+	Nand(a=xbit12, b= z-, out= tempahrimanbit12);
+	Nand(a=xbit13, b= z-, out= tempahrimanbit13);
+	Nand(a=xbit14, b= z-, out= tempahrimanbit14);
+	Nand(a=xbit15, b= z-, out= tempahrimanbit15);
+	
+	Nand(a=tempahrimanbit0,b=tempahrimanbit0,out=ahrimanbit0);
+	Nand(a=tempahrimanbit1,b=tempahrimanbit1,out=ahrimanbit1);
+	Nand(a=tempahrimanbit2,b=tempahrimanbit2,out=ahrimanbit2);
+	Nand(a=tempahrimanbit3,b=tempahrimanbit3,out=ahrimanbit3);
+	Nand(a=tempahrimanbit4,b=tempahrimanbit4,out=ahrimanbit4);
+	Nand(a=tempahrimanbit5,b=tempahrimanbit5,out=ahrimanbit5);
+	Nand(a=tempahrimanbit6,b=tempahrimanbit6,out=ahrimanbit6);
+	Nand(a=tempahrimanbit7,b=tempahrimanbit7,out=ahrimanbit7);
+	Nand(a=tempahrimanbit8,b=tempahrimanbit8,out=ahrimanbit8);
+	Nand(a=tempahrimanbit9,b=tempahrimanbit9,out=ahrimanbit9);
+	Nand(a=tempahrimanbit10,b=tempahrimanbit10,out=ahrimanbit10);
+	Nand(a=tempahrimanbit11,b=tempahrimanbit11,out=ahrimanbit11);
+	Nand(a=tempahrimanbit12,b=tempahrimanbit12,out=ahrimanbit12);
+	Nand(a=tempahrimanbit13,b=tempahrimanbit13,out=ahrimanbit13);
+	Nand(a=tempahrimanbit14,b=tempahrimanbit14,out=ahrimanbit14);
+	Nand(a=tempahrimanbit15,b=tempahrimanbit15,out=ahrimanbit15);
+	
+	
+	Nand(a=ybit0, b= z, out= tempormazdbit0);
+	Nand(a=ybit1, b= z, out= tempormazdbit1);
+	Nand(a=ybit2, b= z, out= tempormazdbit2);
+	Nand(a=ybit3, b= z, out= tempormazdbit3);	
+	Nand(a=ybit4, b= z, out= tempormazdbit4);
+	Nand(a=ybit5, b= z, out= tempormazdbit5);
+	Nand(a=ybit6, b= z, out= tempormazdbit6);
+	Nand(a=ybit7, b= z, out= tempormazdbit7);
+	Nand(a=ybit8, b= z, out= tempormazdbit8);
+	Nand(a=ybit9, b= z, out= tempormazdbit9);
+	Nand(a=ybit10, b= z, out= tempormazdbit10);
+	Nand(a=ybit11, b= z, out= tempormazdbit11);
+	Nand(a=ybit12, b= z, out= tempormazdbit12);
+	Nand(a=ybit13, b= z, out= tempormazdbit13);
+	Nand(a=ybit14, b= z, out= tempormazdbit14);
+	Nand(a=ybit15, b= z, out= tempormazdbit15);
+	
+	Nand(a=tempormazdbit0,b=tempormazdbit0,out=ormazdbit0);
+	Nand(a=tempormazdbit1,b=tempormazdbit1,out=ormazdbit1);
+	Nand(a=tempormazdbit2,b=tempormazdbit2,out=ormazdbit2);
+	Nand(a=tempormazdbit3,b=tempormazdbit3,out=ormazdbit3);
+	Nand(a=tempormazdbit4,b=tempormazdbit4,out=ormazdbit4);
+	Nand(a=tempormazdbit5,b=tempormazdbit5,out=ormazdbit5);
+	Nand(a=tempormazdbit6,b=tempormazdbit6,out=ormazdbit6);
+	Nand(a=tempormazdbit7,b=tempormazdbit7,out=ormazdbit7);
+	Nand(a=tempormazdbit8,b=tempormazdbit8,out=ormazdbit8);
+	Nand(a=tempormazdbit9,b=tempormazdbit9,out=ormazdbit9);
+	Nand(a=tempormazdbit10,b=tempormazdbit10,out=ormazdbit10);
+	Nand(a=tempormazdbit11,b=tempormazdbit11,out=ormazdbit11);
+	Nand(a=tempormazdbit12,b=tempormazdbit12,out=ormazdbit12);
+	Nand(a=tempormazdbit13,b=tempormazdbit13,out=ormazdbit13);
+	Nand(a=tempormazdbit14,b=tempormazdbit14,out=ormazdbit14);
+	Nand(a=tempormazdbit15,b=tempormazdbit15,out=ormazdbit15);
+	
+	
+	Nand(a=ahrimanbit0,	b=ahrimanbit0, out = NOTahrimanbit0);
+	Nand(a=ahrimanbit1,	b=ahrimanbit1, out = NOTahrimanbit1);
+	Nand(a=ahrimanbit2,	b=ahrimanbit2, out = NOTahrimanbit2);
+	Nand(a=ahrimanbit3,	b=ahrimanbit3, out = NOTahrimanbit3);
+	Nand(a=ahrimanbit4,	b=ahrimanbit4, out = NOTahrimanbit4);
+	Nand(a=ahrimanbit5,	b=ahrimanbit5, out = NOTahrimanbit5);
+	Nand(a=ahrimanbit6,	b=ahrimanbit6, out = NOTahrimanbit6);
+	Nand(a=ahrimanbit7,	b=ahrimanbit7, out = NOTahrimanbit7);
+	Nand(a=ahrimanbit8,	b=ahrimanbit8, out = NOTahrimanbit8);
+	Nand(a=ahrimanbit9,	b=ahrimanbit9, out = NOTahrimanbit9);
+	Nand(a=ahrimanbit10,b=ahrimanbit10, out = NOTahrimanbit10);
+	Nand(a=ahrimanbit11,b=ahrimanbit11, out = NOTahrimanbit11);
+	Nand(a=ahrimanbit12,b=ahrimanbit12, out = NOTahrimanbit12);
+	Nand(a=ahrimanbit13,b=ahrimanbit13, out = NOTahrimanbit13);
+	Nand(a=ahrimanbit14,b=ahrimanbit14, out = NOTahrimanbit14);
+	Nand(a=ahrimanbit15,b=ahrimanbit15, out = NOTahrimanbit15);
+	
+	Nand(a=ormazdbit0,	b=ormazdbit0, out = NOTormazdbit0);
+	Nand(a=ormazdbit1,	b=ormazdbit1, out = NOTormazdbit1);
+	Nand(a=ormazdbit2,	b=ormazdbit2, out = NOTormazdbit2);
+	Nand(a=ormazdbit3,	b=ormazdbit3, out = NOTormazdbit3);
+	Nand(a=ormazdbit4,	b=ormazdbit4, out = NOTormazdbit4);
+	Nand(a=ormazdbit5,	b=ormazdbit5, out = NOTormazdbit5);
+	Nand(a=ormazdbit6,	b=ormazdbit6, out = NOTormazdbit6);
+	Nand(a=ormazdbit7,	b=ormazdbit7, out = NOTormazdbit7);
+	Nand(a=ormazdbit8,	b=ormazdbit8, out = NOTormazdbit8);
+	Nand(a=ormazdbit9,	b=ormazdbit9, out = NOTormazdbit9);
+	Nand(a=ormazdbit10,b=ormazdbit10, out = NOTormazdbit10);
+	Nand(a=ormazdbit11,b=ormazdbit11, out = NOTormazdbit11);
+	Nand(a=ormazdbit12,b=ormazdbit12, out = NOTormazdbit12);
+	Nand(a=ormazdbit13,b=ormazdbit13, out = NOTormazdbit13);
+	Nand(a=ormazdbit14,b=ormazdbit14, out = NOTormazdbit14);
+	Nand(a=ormazdbit15,b=ormazdbit15, out = NOTormazdbit15);
+	
+	
+	Nand(a=NOTahrimanbit0, b=NOTormazdbit0, out=out[0]);
+	Nand(a=NOTahrimanbit1, b=NOTormazdbit1, out=out[1]);
+	Nand(a=NOTahrimanbit2, b=NOTormazdbit2, out=out[2]);
+	Nand(a=NOTahrimanbit3, b=NOTormazdbit3, out=out[3]);
+	Nand(a=NOTahrimanbit4, b=NOTormazdbit4, out=out[4]);
+	Nand(a=NOTahrimanbit5, b=NOTormazdbit5, out=out[5]);
+	Nand(a=NOTahrimanbit6, b=NOTormazdbit6, out=out[6]);
+	Nand(a=NOTahrimanbit7, b=NOTormazdbit7, out=out[7]);
+	Nand(a=NOTahrimanbit8, b=NOTormazdbit8, out=out[8]);
+	Nand(a=NOTahrimanbit9, b=NOTormazdbit9, out=out[9]);
+	Nand(a=NOTahrimanbit10, b=NOTormazdbit10, out=out[10]);
+	Nand(a=NOTahrimanbit11, b=NOTormazdbit11, out=out[11]);
+	Nand(a=NOTahrimanbit12, b=NOTormazdbit12, out=out[12]);
+	Nand(a=NOTahrimanbit13, b=NOTormazdbit13, out=out[13]);
+	Nand(a=NOTahrimanbit14, b=NOTormazdbit14, out=out[14]);
+	Nand(a=NOTahrimanbit15, b=NOTormazdbit15, out=out[15]);
+	
+	
+	
+}

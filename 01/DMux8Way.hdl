@@ -1,0 +1,111 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux8Way.hdl
+
+/**
+ * 8-way demultiplexor:
+ * {a, b, c, d, e, f, g, h} = {in, 0, 0, 0, 0, 0, 0, 0} if sel == 000
+ *                            {0, in, 0, 0, 0, 0, 0, 0} if sel == 001
+ *                            etc.
+ *                            {0, 0, 0, 0, 0, 0, 0, in} if sel == 111
+ */
+
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+	Nand(a=sel[0],b=sel[0],out=s0-);
+	Nand(a=sel[1],b=sel[1],out=s1-);
+	Nand(a=sel[2],b=sel[2],out=s2-);
+	Nand(a=s0-,b=s0-,out=s0);
+	Nand(a=s1-,b=s1-,out=s1);
+	Nand(a=s2-,b=s2-,out=s2);
+	
+	//a=s0- s1- s2- in _000
+	Nand(a=s0-,b=s1-,out=NOTs0-s1-);
+	Nand(a=NOTs0-s1-,b=NOTs0-s1-,out=s0-s1-);
+	
+	Nand(a=s0-s1-,b=s2-,out=NOTs0-s1-s2-);
+	Nand(a=NOTs0-s1-s2-,b=NOTs0-s1-s2-,out=s0-s1-s2-);
+	
+	Nand(a=s0-s1-s2-,b=in,out=NOTs0-s1-s2-in);
+	Nand(a=NOTs0-s1-s2-in,b=NOTs0-s1-s2-in,out=a);
+	
+	//b=s0 s1- s2- in _001
+	Nand(a=s0,b=s1-,out=NOTs0s1-);
+	Nand(a=NOTs0s1-,b=NOTs0s1-,out=s0s1-);
+	
+	Nand(a=s0s1-,b=s2-,out=NOTs0s1-s2-);
+	Nand(a=NOTs0s1-s2-,b=NOTs0s1-s2-,out=s0s1-s2-);
+	
+	Nand(a=s0s1-s2-,b=in,out=NOTs0s1-s2-in);
+	Nand(a=NOTs0s1-s2-in,b=NOTs0s1-s2-in,out=b);
+	
+	//c=s0- s1 s2-in _010
+	Nand(a=s0-,b=s1,out=NOTs0-s1);
+	Nand(a=NOTs0-s1,b=NOTs0-s1,out=s0-s1);
+	Nand(a=s0-s1,b=s2-,out=NOTs0-s1s2-);
+	Nand(a=NOTs0-s1s2-,b=NOTs0-s1s2-,out=s0-s1s2-);
+	Nand(a=s0-s1s2-,b=in,out=NOTs0-s1s2-in);
+	Nand(a=NOTs0-s1s2-in,b=NOTs0-s1s2-in,out=c);
+	
+
+	
+	//d=s0 s1 s2-in _011
+	Nand(a=s0,b=s1,out=NOTs0s1);
+	Nand(a=NOTs0s1,b=NOTs0s1,out=s0s1);
+	
+	Nand(a=s0s1,b=s2-,out=NOTs0s1s2-);
+	Nand(a=NOTs0s1s2-,b=NOTs0s1s2-,out=s0s1s2-);
+	
+	Nand(a=s0s1s2-,b=in,out=NOTs0s1s2-in);
+	Nand(a=NOTs0s1s2-in,b=NOTs0s1s2-in,out=d);
+
+	//e=s0-s1-s2in _100
+	Nand(a=s0-,b=s1-,out=NOTs0-s1-FORE);
+	Nand(a=NOTs0-s1-FORE,b=NOTs0-s1-FORE,out=s0-s1-FORE);
+	
+	Nand(a=s0-s1-FORE,b=s2,out=NOTs0-s1-FOREs2);
+	Nand(a=NOTs0-s1-FOREs2,b=NOTs0-s1-FOREs2,out=s0-s1-s2);
+	
+	Nand(a=s0-s1-s2,b=in,out=NOTs0-s1-FOREs2in);
+	Nand(a=NOTs0-s1-FOREs2in,b=NOTs0-s1-FOREs2in,out=e);
+	
+	//f=s0s1-s2in _101
+	Nand(a=s0,b=s1-,out=NOTs0s1-FORF);
+	Nand(a=NOTs0s1-FORF,b=NOTs0s1-FORF,out=s0s1-FORF);
+	
+	Nand(a=s0s1-FORF,b=s2,out=NOTs0s1-FORFs2);
+	Nand(a=NOTs0s1-FORFs2,b=NOTs0s1-FORFs2,out=s0s1-s2);
+	
+	Nand(a=s0s1-s2,b=in,out=NOTs0s1-FORFs2in);
+	Nand(a=NOTs0s1-FORFs2in,b=NOTs0s1-FORFs2in,out=f);
+	
+	//g=s0-s1s2in _110
+	Nand(a=s0-,b=s1,out=NOTs0-s1FORG);
+	Nand(a=NOTs0-s1FORG,b=NOTs0-s1FORG,out=s0-s1FORG);
+	
+	Nand(a=s0-s1FORG,b=s2,out=NOTs0-s1FORGs2);
+	Nand(a=NOTs0-s1FORGs2,b=NOTs0-s1FORGs2,out=s0-s1s2);
+	
+	Nand(a=s0-s1s2,b=in,out=NOTs0-s1FORGs2in);
+	Nand(a=NOTs0-s1FORGs2in,b=NOTs0-s1FORGs2in,out=g);
+	
+	//h=s0s1s2in _111
+	Nand(a=s0,b=s1,out=NOTs0s1FORH);
+	Nand(a=NOTs0s1FORH,b=NOTs0s1FORH,out=s0s1FORH);
+	
+	Nand(a=s0s1FORH,b=s2,out=NOTs0s1FORHs2);
+	Nand(a=NOTs0s1FORHs2,b=NOTs0s1FORHs2,out=s0s1s2);
+	
+	Nand(a=s0s1s2,b=in,out=NOTs0s1FORHs2in);
+	Nand(a=NOTs0s1FORHs2in,b=NOTs0s1FORHs2in,out=h);
+	
+	
+	
+	
+	
+    // Put your code here:
+}
