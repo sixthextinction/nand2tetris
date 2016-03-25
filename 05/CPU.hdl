@@ -1,0 +1,74 @@
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M?
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+
+	//first of all, grab the MSB and check
+	Not				(in = instruction[15], out = isAinstruction);
+	Not				(in = isAinstruction, out = isCinstruction);
+
+
+  // ################################################_ALU_###############################################
+  Mux16			(a = Aout, b = inM, sel = instruction[12], out = AorM);     // A or M , 2nd input to ALU
+
+
+  ALU				(x= Dout,y= AorM ,zx= instruction[11] ,nx= instruction[10] ,zy= instruction[9],ny= instruction[8],f= instruction[7] ,no= instruction[6], out = bForInsMux, out = DRegIn, out = outM,zr= zr,ng= ng);
+
+  //quick check for writeM assertion
+  And       (a = instruction[3], b = isCinstruction, out = writeM);
+                            //CPU out writeM
+// ################################################_/ALU_###############################################
+
+// ##############################################_ D REGISTER _ #########################################
+And       (a = instruction[4], b = isCinstruction, out = Dload);
+DRegister		(in = DRegIn, load = Dload, out = Dout);          // D, 1st input to the ALU
+// ##############################################_ A REGISTER _ #########################################
+Or				(a = isAinstruction, b = instruction[5], out = Aload);
+ARegister		(in = ARegIn, load = Aload, out = Aout, out[0..14] = addressM);
+Mux16			(sel = isAinstruction, a = bForInsMux, b = instruction, out = ARegIn); //bForInsMux is aliased ALU output
+// ##############################################_ A/D REGISTERs _ #########################################
+
+
+
+
+
+
+
+
+
+	//using ALU out zr and ng to determine JMP, JLT, JGT, JEQ
+
+  Not   (in = ng, out = ge); // >=0
+  Not   (in = zr, out = nz); // !=0
+  And   (a = ge, b = nz, out = pos);  // > 0
+	//JEQ
+	And				(a = zr, b = instruction[1], out = jeq);
+
+	//JGT
+
+	And				(a = pos, b = instruction[0], out = jgt);
+
+	//JLT
+	And				(a = ng, b = instruction[2], out = jlt);
+
+  //OR them together for jumpBit
+  Or(a = jeq, b = jgt, out = Or12);
+  Or(a = Or12, b = jlt, out = Or123);
+
+	And ( a = isCinstruction, b = Or123, out = PCload);
+
+
+
+
+	PC					(in = Aout, load = PCload, inc = true, reset = reset, out[0..14] = pc);
+}
