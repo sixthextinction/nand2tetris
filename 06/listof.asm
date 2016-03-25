@@ -1,0 +1,15 @@
+@R0
+0;JMP
+@R0
+M;JGT
+@R0
+D;JEQ
+@R0
+M;JGE
+@R0
+M;JLT
+@R0
+M;JNE
+@R0
+M;JLE
+(LABEL)
